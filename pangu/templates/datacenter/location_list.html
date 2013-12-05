@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="main pure-g-r">
+    <div class="pure-u-7-8">
+        <table class="pure-table" style="width:100%;border:0px">
+        <tr><td><i class="fa fa-comment"></i> 提示框</td></tr>
+        </table>
+    </div>
+    <div align="right" class="pure-u-1-8">
+        <a class="pure-button pure-button-primary" href="{{ url_for('datacenter.location_add') }}">添加新记录</a> 
+    </div>
+</div>
+
+<div class="content pure-g-r">
+    <div class="pure-u-1">
+    <table class="pure-table pure-table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>简称</th>
+            <th>全称</th>
+            <th>电信出口带宽(Mb)</th>
+            <th>联通出口带宽(Mb)</th>
+            <th>其他出口带宽(Mb)</th>
+            <th>区域数量</th>
+            <th>机柜数量</th>
+            <th>供应商</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for location in locations %}
+        <tr>
+            <td>{{ location.id }}</td>            
+            <td>{{ location.short_name }}</td>
+            <td>{{ location.full_name }}</td>
+            <td>{{ location.ct_bandwidth }}</td>
+            <td>{{ location.cu_bandwidth }}</td>
+            <td>{{ location.other_bandwidth }}</td>
+            <td></td>
+            <td></td>
+            <td>{{ manufactures[location.manufacture_id-1] }}</td>
+            <td><a href="{{ url_for('datacenter.location_detail', id=location.id) }}"><i class="fa fa-search"></i></a> <a href="{{ url_for('datacenter.location_edit', id=location.id) }}"><i class="fa fa-edit"></i></a> <a href="{{ url_for('datacenter.location_delete', id=location.id) }}"><i class="fa fa-trash-o"></i></a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="main pure-g-r">
+    <div class="pure-u-7-8">
+        <table class="pure-table" style="width:100%;border:0px">
+        <tr><td><i class="fa fa-comment"></i> 提示框</td></tr>
+        </table>
+    </div>
+    <div align="right" class="pure-u-1-8">
+        <a class="pure-button pure-button-primary" href="{{ url_for('datacenter.rack_add') }}">添加新记录</a> 
+    </div>
+</div>
+
+<div class="content pure-g-r">
+    <div class="pure-u-1">
+    <table class="pure-table pure-table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>名称</th>
+            <th>空间容量(u)</th>
+            <th>设备总量</th>
+            <th>关联机房</th>
+            <th>关联区域</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for rack in racks %}
+        <tr>
+            <td>{{ rack.id }}</td>            
+            <td>{{ rack.name }}</td>
+            <td>{{ rack.units }}</td>
+            <td>{{ rack.capacity }}</td>
+            <td></td>
+            <td></td>
+            <td><a href="{{ url_for('datacenter.rack_detail', id=rack.id) }}"><i class="fa fa-search"></i></a> <a href="{{ url_for('datacenter.rack_edit', id=rack.id) }}"><i class="fa fa-edit"></i></a> <a href="{{ url_for('datacenter.rack_delete', id=rack.id) }}"><i class="fa fa-trash-o"></i></a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    </div>
+</div>
+
+{% endblock %}

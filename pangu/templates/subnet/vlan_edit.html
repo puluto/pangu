@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+{% from "forms/macros.html" import render_field %}
+
+<div class="content pure-g-r">
+    <div class="pure-u-1">
+        <form class="pure-form pure-form-aligned" method="post">
+            {{ form.csrf_token }}
+            <fieldset>
+                {{ render_field(form.name, class="pure-input-1-4", placeholder="vlan101") }}
+                {{ render_field(form.notes, rows='15', class="pure-input-1-2") }}
+                {{ render_field(form.subnet_id, class="pure-input-1-4") }}
+                <input type="submit" class="pure-button pure-button-primary" value="提交">
+                <a class="pure-button pure-button-success" href="{{ url_for('subnet.vlan_list') }}">返回</a>
+             </fieldset>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

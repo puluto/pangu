@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% from "forms/macros.html" import render_field %}
+
+{% block content %}
+
+<div class="content pure-g-r">
+    <div class="pure-u-1">
+        <form class="pure-form pure-form-aligned" method="post">
+            {{ form.csrf_token }}
+            <fieldset>
+                {{ render_field(form.name, class="pure-input-1-3", placeholder="69.169.89.192/27") }}
+                {{ render_field(form.ipaddr_info, class="pure-input-1-3", readonly="readonly", placeholder="子网地址,主机开始地址,主机结束地址,广播地址") }}
+            </fieldset>
+            {% if form.ipaddr_info.data %}
+            <input type="submit" class="pure-button pure-button-primary" value="保存">
+            {% else %}
+            <input type="submit" class="pure-button pure-button-primary" value="生成地址信息">
+            {% endif %}
+            <a class="pure-button pure-button-success" href="{{ url_for('subnet.net_list') }}">返回</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

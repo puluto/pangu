@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+{% from "forms/macros.html" import render_field %}
+
+<div class="content pure-g-r">
+    <div class="pure-u-1">
+        <form class="pure-form pure-form-aligned">
+            {{ form.csrf_token }}
+            <fieldset>
+                {{ render_field(form.id, class="pure-input-1-3", readonly="readonly") }}
+                {{ render_field(form.short_name, class="pure-input-1-3", readonly="readonly") }}
+                {{ render_field(form.full_name, class="pure-input-1-3", readonly="readonly") }}
+                {{ render_field(form.sites, class="pure-input-1-3", readonly="readonly") }}
+                {{ render_field(form.producer, disabled="disabled") }}
+                {{ render_field(form.software, disabled="disabled") }}
+                {{ render_field(form.supplier, disabled="disabled") }}
+                {{ render_field(form.notes, rows="10", class="pure-input-1-2", readonly="readonly") }}
+                {{ render_field(form.update_user, class="pure-input-1-3", readonly="readonly") }}
+                {{ render_field(form.update_time, class="pure-input-1-3", readonly="readonly") }}
+                <a class="pure-button pure-button-success" href="{{ url_for('manufacture.list') }}">返回</a>
+             </fieldset>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PanGu</title> 
+        <meta charset="utf-8">
+        <link href="{{ url_for('static', filename='img/favicon.ico') }}" rel="shortcut icon">
+        <link href="{{ url_for('static', filename='css/font-awesome.min.css') }}" rel="stylesheet"> 
+        <link href="{{ url_for('static', filename='css/pure-min.css') }}" rel="stylesheet"> 
+        <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet"> 
+    </head>
+
+    <body>
+        <div class="pure-g-r">
+            <div class="pure-u-5-6">
+            <div id="navbar-horizontal-menu" class="pure-menu pure-menu-open pure-menu-horizontal">
+                <ul id="navbar-menu-items">
+                    <li class="pure-menu-selected"><a href="{{ url_for('home') }}"><i class="fa fa-home"> Home</i></a></li>
+                    <li>设备信息
+                        <ul>
+                            <li><a href="{{ url_for('server') }}">服务器</a></li>
+                            <li><a href="#">网络设备</a></li>
+                            <li><a href="#">存储设备</a></li>
+                            <li><a href="#">采集设备</a></li>
+                            <li><a href="#">配件</a></li>
+                            <li><a href="#">模板</a></li>
+                        </ul>
+                    </li>
+                    <li>工作流
+                        <ul>
+                            <li><a href="#">运维工单</a></li>
+                            <li><a href="#">运维笔记</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">性能监控</a></li>
+                    <li>OS安装
+                        <ul>
+                            <li><a href="#">安装模板</a></li>
+                            <li><a href="#">任务模板</a></li>
+                            <li><a href="#">任务管理</a></li>
+                        </ul>
+                    </li>
+                    <li>应用部署
+                        <ul>
+                            <li><a href="#">YUM 安装源</a></li>
+                            <li><a href="#">应用模板</a></li>
+                        </ul>
+                    </li>
+                    <li>日志管理
+                        <ul>
+                            <li><a href="#">系统日志</a></li>
+                            <li><a href="#">应用日志</a></li>
+                        </ul>
+                    </li>
+                    <li>配置管理
+                        <ul>
+                            <li><a href="#">用户权限</a></li>
+                            <li>数据中心
+                                <ul>
+                                    <li><a href="{{ url_for('datacenter.location_list') }}">机房</a></li>
+                                    <li><a href="{{ url_for('datacenter.area_list') }}">区域</a></li>
+                                    <li><a href="{{ url_for('datacenter.rack_list') }}">机柜</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">域名解析</a></li>
+                            <li>网络管理
+                                <ul>
+                                    <li><a href="{{ url_for('subnet.net_list') }}">子网</a></li>
+                                    <li><a href="{{ url_for('subnet.vlan_list') }}">vlan</a></li>
+                                    <li><a href="{{ url_for('subnet.tools') }}">计算工具</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="{{ url_for('manufacture.list') }}">第三方厂商</a></li>
+                        </ul> 
+                    </li>
+                </ul>
+            </div>
+            </div>
+        
+            <div align="right" class="pure-u-1-6">
+            <div id="user-horizontal-menu" class="pure-menu pure-menu-open pure-menu-horizontal">
+                <ul id="user-menu-items">
+                    <li>登录用户 ken
+                        <ul>
+                            <li><a href="{{ url_for('server') }}">用户信息</a></li>
+                            <li><a href="{{ url_for('server') }}">退出系统</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            </div>
+        </div>
+
+        {% block content %} {% endblock %}
+
+            <!--div class="footer">
+                <p>Copyright by <a href="#">Ken</a>.  Power by <a href="http://flask.pocoo.org">Flask 0.10</a> and <a href="http://purecss.io">Yahoo Pure 3.0</a>.</p>
+            </div-->
+
+<!-- import javascript library -->
+<script src="{{ url_for('static', filename='js/jquery-1.10.2.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/yui-min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery-custom.js') }}"></script>
+
+<script type="text/javascript">
+YUI({
+    classNamePrefix: 'pure'
+    }).use('gallery-sm-menu', function (Y) {
+
+        var horizontalMenu = new Y.Menu({
+            container         : '#navbar-horizontal-menu',
+            sourceNode        : '#navbar-menu-items',
+            orientation       : 'horizontal',
+            hideOnOutsideClick: false,
+            hideOnClick       : false
+        });
+
+        horizontalMenu.render();
+        horizontalMenu.show();
+});
+
+YUI({
+    classNamePrefix: 'pure'
+    }).use('gallery-sm-menu', function (Y) {
+
+        var horizontalMenu = new Y.Menu({
+            container         : '#user-horizontal-menu',
+            sourceNode        : '#user-menu-items',
+            orientation       : 'horizontal',
+            hideOnOutsideClick: false,
+            hideOnClick       : false
+        });
+
+        horizontalMenu.render();
+        horizontalMenu.show();
+});
+</script>
+<!-- javascript end -->
+    </body>
+</html>

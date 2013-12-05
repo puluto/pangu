@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="main pure-g-r">
+    <div class="pure-u-7-8">
+        <table class="pure-table" style="width:100%;border:0px">
+        <tr><td><i class="fa fa-comment"></i> 消息框</td></tr>
+        </table>
+    </div>
+    <div align="right" class="pure-u-1-8">
+        <a class="pure-button pure-button-primary" href="{{ url_for('subnet.net_add') }}">添加新记录</a> 
+    </div>
+</div>
+
+<div class="content pure-g-r">
+    <div class="pure-u-1">
+    <table class="pure-table pure-table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>名称</th>
+            <th>类型</th>
+            <th>网关</th>
+            <th>网络掩码</th>
+            <th>网络地址</th>
+            <th>主机开始地址</th>
+            <th>主机结束地址</th>
+            <th>广播地址</th>
+            <th>地址</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for net in nets %}
+        <tr>
+            <td>{{ net.id }}</td>
+            <td>{{ net.name }}</td>
+            {% if net.net_type %}<td>内部网</td>{% else %}<td>互联网</td>{% endif %}
+            <td>{{ net.gateway }}</td>
+            <td>{{ net.netmask }}</td>
+            <td>{{ net.network_addr }}</td>
+            <td>{{ net.begin_addr }}</td>
+            <td>{{ net.end_addr }}</td>
+            <td>{{ net.broadcast_addr }}</td>
+            <td>{{ net.used_addr }} / {{ net.valid_addr }}</td>
+            <td><a href="{{ url_for('subnet.net_detail', id=net.id) }}"><i class="fa fa-search"></i></a> <a href="{{ url_for('subnet.net_delete', id=net.id) }}"><i class="fa fa-trash-o"></i></a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="main pure-g-r">
+    <div class="pure-u-7-8">
+        <table class="pure-table" style="width: 100%;">
+        <tr><td><i class="fa fa-comment"></i> 消息框</td></tr>
+        </table>
+    </div>
+    <div align="right" class="pure-u-1-8">
+        <a class="pure-button pure-button-success" href="{{ url_for('subnet.net_list') }}">返回</a> 
+    </div>
+</div>
+
+<div class="content pure-g-r">
+    <div class="pure-u-1-5">
+        <table class="pure-table pure-table-striped">
+            <tr><td><b>子网地址</b></td><td>{{ subnet.network_addr }}</td></tr>
+            <tr><td><b>主机开始地址</b></td><td>{{ subnet.begin_addr }}</td></tr>
+            <tr><td><b>主机结束地址</b></td><td>{{ subnet.end_addr }}</td></tr>
+            <tr><td><b>广播地址</b></td><td>{{ subnet.broadcast_addr }}</td></tr>
+        </table>
+    </div>
+    <div class="pure-u-4-5">
+        <table class="pure-table pure-table-striped">
+            {% for ip in ip_list %}
+            <tr>
+                <td>{{ ip.name }}</td>
+                <td><b>状态</b></td><td>{% if ip.used %}使用{% else %}未使用{% endif %}</td>
+                <td><b>更新人员</b></td><td>{{ ip.update_user }}</td>
+                <td><b>更新时间</b></td><td>{{ ip.update_time }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

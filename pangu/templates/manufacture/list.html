@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="main pure-g-r">
+    <div class="pure-u-7-8">
+        <table class="pure-table" style="width:100%;border:1px">
+            <tr><td><i class="fa fa-comment"></i> 厂家共有5家，硬件厂商3家</td></tr>
+        </table>
+    </div>
+
+    <div align="right" class="pure-u-1-8">
+        <a class="pure-button pure-button-primary" href="{{ url_for('manufacture.add') }}">添加新记录</a> 
+    </div>
+</div>
+
+<div class="content pure-g-r">
+    <div class="pure-u-1">
+    <table class="pure-table pure-table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>简称</th>
+            <th>全称</th>
+            <th>生产商</th>
+            <th>软件商</th>
+            <th>供应商</th>
+            <th>官方网站</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for manufacture in manufactures %}
+        <tr>
+            <td>{{ manufacture.id }}</td>
+            <td>{{ manufacture.short_name }}</td>
+            <td>{{ manufacture.full_name }}</td>
+            <td>{% if manufacture.producer == 1 %}是{% else %}否{% endif %}</td>
+            <td>{% if manufacture.software == 1 %}是{% else %}否{% endif %}</td>
+            <td>{% if manufacture.supplier == 1 %}是{% else %}否{% endif %}</td>
+            <td>{{ manufacture.sites }}</td>
+            <td><a href="{{ url_for('manufacture.detail', id=manufacture.id) }}"><i class="fa fa-search"></i></a> <a href="{{ url_for('manufacture.edit', id=manufacture.id) }}"><i class="fa fa-edit"></i></a> <a href="{{ url_for('manufacture.delete', id=manufacture.id) }}"><i class="fa fa-trash-o"></i></a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    </div>
+</div>
+
+{% endblock %}
