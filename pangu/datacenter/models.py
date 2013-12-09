@@ -26,7 +26,7 @@ class Rack(db.Model):
     id = db.Column(db.Integer, index=True, primary_key=True)
     name = db.Column(db.String(20), index=True)
     units = db.Column(db.Integer, default=45)
-    capacity = db.Column(db.Integer, default=12)
+    capacity = db.Column(db.Integer, default=13)
     notes = db.Column(db.String(200))
     update_user = db.Column(db.String(20), default='admin')
     update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)

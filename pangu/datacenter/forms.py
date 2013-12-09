@@ -15,7 +15,7 @@ class LocationEditForm(Form):
 class LocationDetailForm(Form):
     id = TextField(u'#')
     short_name = TextField(u'简称')
-    full_name = TextField(u'全称')
+    full_name = TextField(u'全称')    
     ct_bandwidth = TextField(u'电信出口带宽(Mb)')
     cu_bandwidth = TextField(u'联通出口带宽(Mb)')
     other_bandwidth = TextField(u'其他出口带宽(Mb)')

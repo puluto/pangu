@@ -3,10 +3,18 @@
     <head>
         <title>PanGu</title> 
         <meta charset="utf-8">
+        
         <link href="{{ url_for('static', filename='img/favicon.ico') }}" rel="shortcut icon">
         <link href="{{ url_for('static', filename='css/font-awesome.min.css') }}" rel="stylesheet"> 
         <link href="{{ url_for('static', filename='css/pure-min.css') }}" rel="stylesheet"> 
         <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet"> 
+
+        <script src="{{ url_for('static', filename='js/jquery-1.10.2.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/yui-min.js') }}"></script>
+
+        <script type=text/javascript>
+          var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+        </script> 
     </head>
 
     <body>
@@ -90,17 +98,6 @@
             </div>
         </div>
 
-        {% block content %} {% endblock %}
-
-            <!--div class="footer">
-                <p>Copyright by <a href="#">Ken</a>.  Power by <a href="http://flask.pocoo.org">Flask 0.10</a> and <a href="http://purecss.io">Yahoo Pure 3.0</a>.</p>
-            </div-->
-
-<!-- import javascript library -->
-<script src="{{ url_for('static', filename='js/jquery-1.10.2.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/yui-min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/jquery-custom.js') }}"></script>
-
 <script type="text/javascript">
 YUI({
     classNamePrefix: 'pure'
@@ -134,6 +131,12 @@ YUI({
         horizontalMenu.show();
 });
 </script>
-<!-- javascript end -->
+
+        {% block content %} {% endblock %}
+
+            <!--div class="footer">
+                <p>Copyright by <a href="#">Ken</a>.  Power by <a href="http://flask.pocoo.org">Flask 0.10</a> and <a href="http://purecss.io">Yahoo Pure 3.0</a>.</p>
+            </div-->
+
     </body>
 </html>

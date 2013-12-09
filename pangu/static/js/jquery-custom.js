@@ -8,7 +8,7 @@
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             data: { 
-                current_id: $(this).val()
+                current: $(this).val()
             },
             success: function(msg) {
                 var tmp = eval(msg);

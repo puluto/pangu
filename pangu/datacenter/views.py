@@ -97,11 +97,11 @@ def area_delete(id):
 	db.session.commit()
 	return redirect(url_for('datacenter.area_list'))
 
-@mod.route('/area/json/select_list/', methods=['GET', 'POST'])
+@mod.route('/area/json/select_list/') # get JSon of area select list
 def area_selectlist():
-	areas = Area.query.all(id=request['current_id'])	
-	results = [ { 'id': i.id, 'name': i.name } for i in areas ]
-	return jsonify(json=results) 
+	areas = Area.query.filter_by(location_id=request.args.get('choice', type=int))
+	result	= [{'id': i.id, 'name': i.name} for i in areas]
+	return jsonify(json=result)
 
 @mod.route('/rack/')
 def rack_list():
@@ -115,6 +115,8 @@ def rack_add():
 	form = RackEditForm(request.form)
 	form.location_id.choices = [(i.id, i.short_name) for i in Location.query.all()]
 	form.area_id.choices = [(i.id, i.name) for i in Area.query.all()]
+	form.location_id.choices.insert(0, (0, u'- 指定机房 -'))
+	form.area_id.choices.insert(0, (0, u'- 指定区域 -'))
 	if form.validate_on_submit():
 		rack = Rack()
 		form.populate_obj(rack)
@@ -129,7 +131,17 @@ def rack_detail(id):
 
 @mod.route('/rack/edit/<int:id>', methods=['GET', 'POST'])
 def rack_edit(id):
-	return render_template('home.html')
+	rack = Rack.query.filter_by(id=id).first()
+	form = RackEditForm(request.form, rack)
+	form.location_id.choices = [(i.id, i.short_name) for i in Location.query.all()]
+	form.area_id.choices = [(i.id, i.name) for i in Area.query.all()]
+	form.location_id.choices.insert(0, (0, u'- 指定机房 -'))
+	form.area_id.choices.insert(0, (0, u'- 指定区域 -'))
+	if form.validate_on_submit():
+		form.populate_obj(rack)
+		db.session.commit()
+		return redirect(url_for("datacenter.rack_list"))
+	return render_template('datacenter/rack_edit.html', form=form)
 
 @mod.route('/rack/delete/<int:id>')
 def rack_delete(id):

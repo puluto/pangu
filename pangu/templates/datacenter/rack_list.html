@@ -33,8 +33,16 @@
             <td>{{ rack.name }}</td>
             <td>{{ rack.units }}</td>
             <td>{{ rack.capacity }}</td>
-            <td></td>
-            <td></td>
+            {% if rack.location_id == 0 %}
+                <td>未关联</td>
+            {% else %}
+                <td>{{ locations[rack.location_id-1]}}</td>
+            {% endif %}
+            {% if rack.location_id ==0 %}
+                <td>未关联</td>
+            {% else %}
+                <td>{{ areas[rack.area_id-1]}}</td>
+            {% endif %}
             <td><a href="{{ url_for('datacenter.rack_detail', id=rack.id) }}"><i class="fa fa-search"></i></a> <a href="{{ url_for('datacenter.rack_edit', id=rack.id) }}"><i class="fa fa-edit"></i></a> <a href="{{ url_for('datacenter.rack_delete', id=rack.id) }}"><i class="fa fa-trash-o"></i></a></td>
         </tr>
         {% endfor %}
