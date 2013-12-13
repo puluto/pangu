@@ -49,7 +49,7 @@
                     </li>
                     <li>应用部署
                         <ul>
-                            <li><a href="#">YUM 安装源</a></li>
+                            <li><a href="#">yum安装源</a></li>
                             <li><a href="#">应用模板</a></li>
                         </ul>
                     </li>
@@ -61,7 +61,11 @@
                     </li>
                     <li>配置管理
                         <ul>
-                            <li><a href="#">用户权限</a></li>
+                            <li>用户权限
+                                <ul>
+                                    <li><a href="#">用户</a></li>
+                                    <li><a href="#">用户组</a></li>
+                                </ul>
                             <li>数据中心
                                 <ul>
                                     <li><a href="{{ url_for('datacenter.location_list') }}">机房</a></li>
@@ -69,7 +73,12 @@
                                     <li><a href="{{ url_for('datacenter.rack_list') }}">机柜</a></li>
                                 </ul>
                             </li>
-                            <li><a href="#">域名解析</a></li>
+                            <li>域名解析
+                                <ul>
+                                    <li><a href="#">内部网络</a></li>
+                                    <li><a href="#">互联网</a></li>
+                                </ul>
+                            </li>
                             <li>网络管理
                                 <ul>
                                     <li><a href="{{ url_for('subnet.net_list') }}">子网</a></li>
@@ -80,6 +89,7 @@
                             <li><a href="{{ url_for('manufacture.list') }}">第三方厂商</a></li>
                         </ul> 
                     </li>
+                    <li><a href="#">使用文档</a></li>
                 </ul>
             </div>
             </div>

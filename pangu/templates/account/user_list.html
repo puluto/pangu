@@ -51,20 +51,12 @@
             {% else %}
                 <td>{{ areas[rack.area_id-1]}}</td>
             {% endif %}
-            <td><a id="button-detail" href="{{ url_for('datacenter.rack_detail', id=rack.id) }}"><i class="fa fa-search"></i></a>&nbsp;<a id="button-edit" href="{{ url_for('datacenter.rack_edit', id=rack.id) }}"><i class="fa fa-edit"></i></a>&nbsp;<a id="button-delete" href="{{ url_for('datacenter.rack_delete', id=rack.id) }}"><i class="fa fa-trash-o"></i></a></td>
+            <td><a href="{{ url_for('datacenter.rack_detail', id=rack.id) }}"><i class="fa fa-search"></i></a> <a href="{{ url_for('datacenter.rack_edit', id=rack.id) }}"><i class="fa fa-edit"></i></a> <a href="{{ url_for('datacenter.rack_delete', id=rack.id) }}"><i class="fa fa-trash-o"></i></a></td>
         </tr>
         {% endfor %}
     </tbody>
     </table>
     </div>
 </div>
-
-<script type="text/javascript">
-$(function(){
-    /*$("a[id='button-delete']").remove();*/
-    $("a[id='button-edit']").removeAttr('href');
-    $("a[id='button-delete']").removeAttr('href');
-});
-</script>
 
 {% endblock %}

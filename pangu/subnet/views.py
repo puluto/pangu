@@ -17,7 +17,7 @@ def net_list():
 def tools():
 	return render_template('subnet/tools.html')
 
-def write_table(net):
+def write_ip_table(net):
 	# insert info of subnet into table
 	subnet = Subnet()
 	ip = Ip()
@@ -45,8 +45,6 @@ def write_table(net):
 
 	# insert ipaddress of the subnet into table
 	subnet_info = Subnet.query.filter_by(name=net).first()
-	print subnet_info.id
-
 	db.session.execute(
 		Ip.__table__.insert(),
 		[{'name': info[i], 'subnet_id': subnet_info.id} for i in xrange(1, info.size-1)]
@@ -58,7 +56,7 @@ def net_add():
 	form = NetAddForm()
 	if form.validate_on_submit and form.name.data:
 		if form.ipaddr_info.data:
-			write_table(form.name.data)
+			write_ip_table(form.name.data)
 			return redirect(url_for('subnet.net_list'))
 		else:
 			info = IPNetwork(form.name.data)
@@ -74,16 +72,11 @@ def net_detail(id):
 
 @mod.route('/net/delete/<int:id>')
 def net_delete(id):
-	# 判断子网所属ip是否被使用? 如使用，不能被删除
-	used = db.session.query(Ip.used).filter_by(subnet_id=id).all()
-	if True in used:
-		print 'Do not delete this record, because ipaddress is used.'
-	else:
-		print 'Flase'
-		#Ip.query.filter_by(subnet_id=id).delete()
-		#net = Subnet.query.filter_by(id=id).first()
-		#db.session.delete(net)
-		#db.session.commit()
+	# 判断子网所属ip是否被使用? 如使用，不能被删除。涉及ip表。
+	net = Subnet.query.filter_by(id=id).first()
+	db.session.query(Ip).filter(Ip.subnet_id==net.id).delete()
+	db.session.delete(net)
+	db.session.commit()
 	return redirect(url_for('subnet.net_list'))
 
 @mod.route('/vlan/')
@@ -95,7 +88,8 @@ def vlan_list():
 @mod.route('/vlan/add/', methods=['GET', 'POST'])
 def vlan_add():
 	form = VlanEditForm(request.form)
-	form.subnet_id.choices = [(i.id, i.name) for i in Subnet.query.order_by(Subnet.id)]
+	form.subnet_id.choices = [(i.id, i.name) for i in Subnet.query.all()]
+	form.subnet_id.choices.insert(0, (0, u'- 指定子网 -'))
 	if form.validate_on_submit():
 		vlan = Vlan()
 		form.populate_obj(vlan)
@@ -116,6 +110,7 @@ def vlan_edit(id):
     vlan = Vlan.query.filter_by(id=id).first()
     form = VlanEditForm(request.form, vlan)
     form.subnet_id.choices = [(i.id, i.name) for i in Subnet.query.order_by(Subnet.id)] # pass choise option
+    form.subnet_id.choices.insert(0, (0, u'- 指定子网 -'))
     if form.validate_on_submit():
         form.populate_obj(vlan)
         db.session.commit()

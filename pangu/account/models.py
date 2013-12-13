@@ -2,44 +2,40 @@
 from datetime import datetime
 from pangu import db
 
-class Location(db.Model):
+class User(db.Model):
     id = db.Column(db.Integer, index=True, primary_key=True)
-    short_name = db.Column(db.String(20), index=True, unique=True)
-    code_name = db.Column(db.String(20), index=True)
-    ct_bandwidth = db.Column(db.Integer, default=0)
-    cu_bandwidth = db.Column(db.Integer, default=0)
-    other_bandwidth = db.Column(db.Integer, default=0)
+    name = db.Column(db.String(20), index=True, unique=True, nullable=False)
+    code_name = db.Column(db.String(20), unique=True, nullable=False)
+    mail = db.Column(db.String(50), unique=True, nullable=False)
+    mobile = db.Column(db.String(50), unique=True, nullable=False) 
     notes = db.Column(db.String(200))
     update_user = db.Column(db.String(20), default='admin')
     update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
-    manufacture_id = db.Column(db.Integer)
+    group_id = db.Column(db.Integer)
 
-class Area(db.Model):
-    id = db.Column(db.Integer, index=True, primary_key=True)
-    name = db.Column(db.String(20), index=True, unique=True)
-    notes = db.Column(db.String(200))
-    update_user = db.Column(db.String(20), default='admin')
-    update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
-    location_id = db.Column(db.Integer)
-
-class Rack(db.Model):
+class Group(db.Model):
     id = db.Column(db.Integer, index=True, primary_key=True)
     name = db.Column(db.String(20), index=True)
-    units = db.Column(db.Integer, default=45)
-    capacity = db.Column(db.Integer, default=13)
     notes = db.Column(db.String(200))
     update_user = db.Column(db.String(20), default='admin')
     update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
-    location_id = db.Column(db.Integer)
-    area_id = db.Column(db.Integer)
-    vlan_id = db.Column(db.String(20))  
+    permission_id = db.Column(db.Integer)
 
-class Unit(db.Model):
+class Module(db.Model):
     id = db.Column(db.Integer, index=True, primary_key=True)
     name = db.Column(db.String(20), index=True)
+    notes = db.Column(db.String(200))
     update_user = db.Column(db.String(20), default='admin')
     update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
-    left_dev_id = db.Column(db.Integer, default=0)     # 类似双子星设备左半部
-    right_dev_id = db.Column(db.Integer, default=0)    # 类似双子星设备右半部
-    all_dev_id = db.Column(db.Integer, default=0)      # 标准机架设备
-    rack_id = db.Column(db.Integer)
+
+class Permission(db.Model):
+    id = db.Column(db.Integer, index=True, primary_key=True)
+    name = db.Column(db.Integer)
+    notes = db.Column(db.String(200))
+    list_action = db.Column(db.String(100))   # 添加group_id,以逗号分隔
+    add_action = db.Column(db.String(100))    # 添加group_id,以逗号分隔
+    update_action = db.Column(db.String(100)) # 添加group_id,以逗号分隔
+    delete_action = db.Column(db.String(100)) # 添加group_id,以逗号分隔
+    update_user = db.Column(db.String(20), default='admin')
+    update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+    module_id = db.Column(db.Integer)

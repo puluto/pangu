@@ -21,10 +21,10 @@ class Subnet(db.Model):
 class Ip(db.Model):
     id = db.Column(db.Integer, index=True, primary_key=True)
     name = db.Column(db.String(20), index=True, unique=True)
-    used = db.Column(db.Boolean, default=False) # True: used; False: not use
     update_user = db.Column(db.String(20), default='admin')
     update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
     subnet_id = db.Column(db.Integer)
+    device_id = db.Column(db.Integer, default=0)
 
 class Vlan(db.Model):
     id = db.Column(db.Integer, index=True, primary_key=True)

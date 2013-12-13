@@ -4,7 +4,15 @@
 <div class="main pure-g-r">
     <div class="pure-u-7-8">
         <table class="pure-table" style="width:100%;border:0px">
-        <tr><td><i class="fa fa-comment"></i> 提示框</td></tr>
+        <tr>
+            <td style="color: blue">
+                <i class="fa fa-comment">
+                    {% with messages = get_flashed_messages() %} 
+                        {% for message in messages %} {{ message }} {% endfor %}
+                    {% endwith %}
+                </i>
+            </td>
+        </tr>
         </table>
     </div>
     <div align="right" class="pure-u-1-8">
@@ -19,12 +27,13 @@
         <tr>
             <th>#</th>
             <th>简称</th>
-            <th>全称</th>
+            <th>字母代码</th>
             <th>电信出口带宽(Mb)</th>
             <th>联通出口带宽(Mb)</th>
             <th>其他出口带宽(Mb)</th>
             <th>区域数量</th>
             <th>机柜数量</th>
+            <th>设备数量</th>
             <th>供应商</th>
             <th>操作</th>
         </tr>
@@ -34,10 +43,11 @@
         <tr>
             <td>{{ location.id }}</td>            
             <td>{{ location.short_name }}</td>
-            <td>{{ location.full_name }}</td>
+            <td>{{ location.code_name }}</td>
             <td>{{ location.ct_bandwidth }}</td>
             <td>{{ location.cu_bandwidth }}</td>
             <td>{{ location.other_bandwidth }}</td>
+            <td></td>
             <td></td>
             <td></td>
             <td>{{ manufactures[location.manufacture_id-1] }}</td>

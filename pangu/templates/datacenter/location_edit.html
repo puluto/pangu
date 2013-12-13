@@ -7,11 +7,11 @@
         <form class="pure-form pure-form-aligned" method="post">
             {{ form.csrf_token }}
             <fieldset>
-                {{ render_field(form.short_name, class="pure-input-1-4", placeholder="无锡国际电信") }}
-                {{ render_field(form.full_name, class="pure-input-1-4", placeholder="中国电信无锡国际数据中心") }}
-                {{ render_field(form.ct_bandwidth, class="pure-input-1-4", placeholder="100") }}
-                {{ render_field(form.cu_bandwidth, class="pure-input-1-4", placeholder="100") }}
-                {{ render_field(form.other_bandwidth, class="pure-input-1-4", placeholder="100") }}
+                {{ render_field(form.short_name, class="pure-input-1-4", placeholder="无锡新区") }}
+                {{ render_field(form.code_name, class="pure-input-1-4", placeholder="wxxq") }}
+                {{ render_field(form.ct_bandwidth, class="pure-input-1-4", placeholder="0") }}
+                {{ render_field(form.cu_bandwidth, class="pure-input-1-4", placeholder="0") }}
+                {{ render_field(form.other_bandwidth, class="pure-input-1-4", placeholder="0") }}
                 {{ render_field(form.notes, rows='15', class="pure-input-1-2") }}
                 {{ render_field(form.manufacture_id, class="pure-input-1-4") }}
                 <input type="submit" class="pure-button pure-button-primary" value="提交">

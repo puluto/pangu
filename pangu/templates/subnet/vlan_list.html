@@ -4,7 +4,15 @@
 <div class="main pure-g-r">
     <div class="pure-u-7-8">
         <table class="pure-table" style="width:100%;border:0px">
-        <tr><td><i class="fa fa-comment"></i> 提示框</td></tr>
+        <tr>
+            <td style="color: blue">
+                <i class="fa fa-comment">
+                    {% with messages = get_flashed_messages() %} 
+                        {% for message in messages %} {{ message }} {% endfor %}
+                    {% endwith %}
+                </i>
+            </td>
+        </tr>
         </table>
     </div>
     <div align="right" class="pure-u-1-8">
@@ -30,7 +38,11 @@
             <td>{{ vlan.id }}</td>            
             <td>{{ vlan.name }}</td>
             <td>{{ vlan.notes }}</td>
-            <td>{{ subnets[vlan.subnet_id-1] }}</td>
+            {% if vlan.subnet_id == 0 %}
+                <td>未指定</td>
+            {% else %}
+                <td>{{ subnets[vlan.subnet_id-1] }}</td>
+            {% endif %}
             <td><a href="{{ url_for('subnet.vlan_detail', id=vlan.id) }}"><i class="fa fa-search"></i></a> <a href="{{ url_for('subnet.vlan_edit', id=vlan.id) }}"><i class="fa fa-edit"></i></a> <a href="{{ url_for('subnet.vlan_delete', id=vlan.id) }}"><i class="fa fa-trash-o"></i></a></td>
         </tr>
         {% endfor %}

@@ -4,7 +4,15 @@
 <div class="main pure-g-r">
     <div class="pure-u-7-8">
         <table class="pure-table" style="width:100%;border:0px">
-        <tr><td><i class="fa fa-comment"></i> 提示框</td></tr>
+        <tr>
+            <td style="color: blue">
+                <i class="fa fa-comment">
+                    {% with messages = get_flashed_messages() %} 
+                        {% for message in messages %} {{ message }} {% endfor %}
+                    {% endwith %}
+                </i>
+            </td>
+        </tr>
         </table>
     </div>
     <div align="right" class="pure-u-1-8">
