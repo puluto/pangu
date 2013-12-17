@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>登录PanGu</title> 
+        <meta charset="utf-8">
+        <link href="{{ url_for('static', filename='img/favicon.ico') }}" rel="shortcut icon">
+        <link href="{{ url_for('static', filename='css/font-awesome.min.css') }}" rel="stylesheet"> 
+        <link href="{{ url_for('static', filename='css/pure-min.css') }}" rel="stylesheet">
+        <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet"> 
+        <style>
+            div#login {
+                background-color: #333333;
+                border:2px solid;
+                border-radius:5px;
+                border-style: none;
+                padding-top: 5px; 
+            }
+        </style>
+    </head>
+    <body>
+        <div class="pure-g-r" style="height:200px"></div>
+
+        <div class="pure-g-r" style="height:120px">
+            <div class="pure-u-1-3"></div>
+            <div id="login" class="pure-u-1-3">
+                <form class="pure-form pure-form-aligned" action="/" method="POST">
+                    <fieldset>
+                        <div class="pure-control-group">
+                            <label style="color:#ffffff">用户名</label>
+                            <input id="username" name="username" type="text" placeholder="guest">
+                        </div>
+                        <div class="pure-control-group">
+                            <label style="color:#ffffff">密码</label>
+                            <input id="password" name="password" type="password" placeholder="guest">
+                        </div>
+                        <div style="padding-left:61%">
+                            <button type="submit" class="pure-button pure-button-primary">登录</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="pure-u-1-3"></div>
+        </div>
+
+        <div class="pure-g-r" style="height:30px">
+            <div class="pure-u-1-3"></div>
+            <div class="pure-u-1-3">
+                <table class="pure-table" style="width:100%;border:0px">
+                    <tr>
+                        <td style="color: blue">
+                            {% with messages = get_flashed_messages() %} 
+                                {% for message in messages %} {{ message }} {% endfor %}
+                            {% endwith %}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="pure-u-1-3"></div>
+        </div>
+
+    </body>
+</html>

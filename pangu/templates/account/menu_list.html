@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="main pure-g-r">
+    <div class="pure-u-7-8">
+        <table class="pure-table" style="width:100%;border:0px">
+        <tr>
+            <td style="color: blue">
+                <i class="fa fa-comment">
+                    {% with messages = get_flashed_messages() %} 
+                        {% for message in messages %} {{ message }} {% endfor %}
+                    {% endwith %}
+                </i>
+            </td>
+        </tr>
+        </table>
+    </div>
+    <div align="right" class="pure-u-1-8">
+        <a class="pure-button pure-button-primary" href="{{ url_for('account.menu_add') }}">添加新记录</a> 
+    </div>
+</div>
+
+<div class="content pure-g-r">
+    <div class="pure-u-1">
+    <table class="pure-table pure-table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>名称</th>
+            <th>英文名称</th>
+            <th>url</th>
+            <th>类型</th>
+            <th>所属1级父菜单</th>
+            <th>所属2级父菜单</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for menu in menus %}
+        <tr>
+            <td>{{ menu.id }}</td>            
+            <td>{{ menu.name }}</td>
+            <td>{{ menu.code_name }}</td>
+            <td>{{ menu.url }}</td>
+            {% if menu.level_1_id == 0 and menu.level_2_id == 0 %}
+                <td>1级菜单</td>
+            {% elif menu.level_1_id != 0 and menu.level_2_id == 0 %}
+                <td>2级菜单</td>
+            {% else %}
+                <td>3级菜单</td>
+            {% endif %}
+            {% if menu.level_1_id !=0 %}<td>{{ parent[menu.level_1_id-1] }}</td>{% else %}<td></td>{% endif %}
+            {% if menu.level_2_id !=0 %}<td>{{ parent[menu.level_2_id-1] }}</td>{% else %}<td></td>{% endif %}
+            <td><a href="{{ url_for('account.menu_detail', id=menu.id) }}"><i class="fa fa-search"></i></a> <a href="{{ url_for('account.menu_edit', id=menu.id) }}"><i class="fa fa-edit"></i></a> <a href="{{ url_for('account.menu_delete', id=menu.id) }}"><i class="fa fa-trash-o"></i></a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,186 +1,47 @@
 # -*- coding: utf-8 -*
 from flask import Blueprint, render_template, flash, redirect, url_for, session, request, g, jsonify
 from pangu import db, app
-from pangu.datacenter.forms import LocationEditForm, LocationDetailForm, AreaEditForm, AreaDetailForm, \
-	RackEditForm, RackDetailForm
-from pangu.datacenter.models import Location, Area, Rack, Unit
-from pangu.subnet.models import Vlan
-from pangu.manufacture.models import Manufacture
+from pangu.account.forms import MenuEditForm, MenuDetailForm
+from pangu.account.models import Menu, User, Group, Permission
 
-mod = Blueprint('datacenter', __name__)
+mod = Blueprint('account', __name__)
 
-@mod.route('/location/')
-def location_list():
-	locations = Location.query.order_by(Location.id)
-	manufactures = [ i.short_name for i in Manufacture.query.order_by(Manufacture.id)]
-	return render_template('datacenter/location_list.html', locations=locations, manufactures=manufactures)
-
-@mod.route('/location/add/', methods=['GET', 'POST'])
-def location_add():
-	form = LocationEditForm(request.form)
-	form.manufacture_id.choices = [(i.id, i.short_name) \
-		for i in Manufacture.query.filter(Manufacture.supplier == True).all()]
-	if form.validate_on_submit():
-		location = Location()
-		form.populate_obj(location)
-		db.session.add(location)
-		db.session.commit()
-		return redirect(url_for("datacenter.location_list"))
-	return render_template('datacenter/location_edit.html', form=form)
-
-@mod.route('/location/detail/<int:id>')
-def location_detail(id):
-    location = Location.query.filter_by(id=id).first()
-    form = LocationDetailForm(request.form, location)
-    form.manufacture_id.choices = [(i.id, i.short_name) \
-    	for i in Manufacture.query.filter(Manufacture.supplier == True).all()]
-    return render_template('datacenter/location_detail.html', form=form)
-
-@mod.route('/location/edit/<int:id>', methods=['GET', 'POST'])
-def location_edit(id):
-    location = Location.query.filter_by(id=id).first()
-    form = LocationEditForm(request.form, location)
-    form.manufacture_id.choices = [(i.id, i.short_name) \
-    	for i in Manufacture.query.filter(Manufacture.supplier == True).all()]
-    if form.validate_on_submit():
-        form.populate_obj(location)
-        db.session.commit()
-        return redirect(url_for('datacenter.location_list')) 
-    return render_template('datacenter/location_edit.html', form=form)
-
-@mod.route('/location/delete/<int:id>')
-def location_delete(id):
-	location = Location.query.filter_by(id=id).first()
-	db.session.delete(location)
-	db.session.commit()
-	return redirect(url_for('datacenter.location_list'))
-
-@mod.route('/area/')
-def area_list():
-	areas = Area.query.order_by(Area.id)
-	locations = [ i.short_name for i in Location.query.order_by(Location.id)]
-	return render_template('datacenter/area_list.html', areas=areas, locations=locations)
-
-@mod.route('/area/add/', methods=['GET', 'POST'])
-def area_add():
-	form = AreaEditForm(request.form)
-	form.location_id.choices = [(i.id, i.short_name) for i in Location.query.all()]
-	if form.validate_on_submit():
-		area = Area()
-		form.populate_obj(area)
-		db.session.add(area)
-		db.session.commit()
-		return redirect(url_for("datacenter.area_list"))
-	return render_template('datacenter/area_edit.html', form=form)
-
-@mod.route('/area/detail/<int:id>')
-def area_detail(id):
-    area = Area.query.filter_by(id=id).first()
-    form = AreaDetailForm(request.form, area)
-    form.location_id.choices = [(i.id, i.short_name) for i in Location.query.all()]
-    return render_template('datacenter/area_detail.html', form=form)
-
-@mod.route('/area/edit/<int:id>', methods=['GET', 'POST'])
-def area_edit(id):
-    area = Area.query.filter_by(id=id).first()
-    form = AreaEditForm(request.form, area)
-    form.location_id.choices = [(i.id, i.short_name) for i in Location.query.all()]
-    if form.validate_on_submit():
-        form.populate_obj(area)
-        db.session.commit()
-        return redirect(url_for('datacenter.area_list')) 
-    return render_template('datacenter/area_edit.html', form=form)
-
-@mod.route('/area/delete/<int:id>')
-def area_delete(id):
-	area = Area.query.filter_by(id=id).first()
-	db.session.delete(area)
-	db.session.commit()
-	return redirect(url_for('datacenter.area_list'))
-
-@mod.route('/area/json/select_list/') # get JSon of area select list
-def area_selectlist():
-	areas = Area.query.filter_by(location_id=request.args.get('choice', type=int))
-	result	= [{'id': i.id, 'name': i.name} for i in areas]
+@mod.route('/menu/json/select_list/') # get JSon of menu level 2 selectlist
+def menu_selectlist():
+	menus = Menu.query.filter(Menu.level_1_id==request.args.get('choice', type=int), Menu.level_2_id==0)
+	result	= [{'id': i.id, 'name': i.name} for i in menus]
 	return jsonify(json=result)
 
-def write_unit_table(units):
-	rack = Rack.query.order_by(Rack.id.desc()).first()
-	if rack is None:
-		rack_id = 1
-	else:
-		rack_id = rack.id
-	print rack_id
-	db.session.execute(
-		Unit.__table__.insert(),
-		[{'name': i, 'rack_id': rack_id} for i in xrange(1, int(units)+1)]
-	)
-	db.session.commit()
+@mod.route('/menu/')
+def menu_list():
+	menus = Menu.query.order_by(Menu.id).all()
+	parent = [ i.name for i in Menu.query.order_by(Menu.id)]
+	return render_template('account/menu_list.html', menus=menus, parent=parent)
 
-@mod.route('/rack/')
-def rack_list():
-	racks = Rack.query.order_by(Rack.id)
-	locations = [i.short_name for i in Location.query.all()]
-	areas = [i.name for i in Area.query.all()]
-	return render_template('datacenter/rack_list.html', racks=racks, locations=locations, areas=areas)
-
-@mod.route('/rack/add/', methods=['GET', 'POST'])
-def rack_add():
-	form = RackEditForm(request.form)
-	form.location_id.choices = [(i.id, i.short_name) for i in Location.query.all()]
-	form.location_id.choices.insert(0, (0, u'- 指定机房 -'))
-	form.area_id.choices = [(i.id, i.name) for i in Area.query.all()]
-	form.area_id.choices.insert(0, (0, u'- 指定区域 -'))
-	form.vlan_id.choices = [(i.id, i.name) for i in Vlan.query.all()]
-	form.vlan_id.choices.insert(0, (0, u'- 不指定vlan -'))
-	
+@mod.route('/menu/add/', methods=['GET', 'POST'])
+def menu_add():
+	form = MenuEditForm(request.form)
+	form.level_1_id.choices = [(i.id, i.name) for i in Menu.query.filter(Menu.level_1_id==0).all()]
+	form.level_1_id.choices.insert(0, (0, u'- 设置为一级菜单 -'))
+	form.level_2_id.choices = [(0, u'- 设置为二级菜单 -')]
 	if form.validate_on_submit():
-		rack = Rack()
-		form.populate_obj(rack)
-		vlan_list = [str(i) for i in form.vlan_id.data]
-		rack.vlan_id= ','.join(vlan_list)
-		db.session.add(rack)
+		print 'form', form.level_1_id.data, form.level_2_id.data
+		menu = Menu()
+		form.populate_obj(menu)
+		print 'menu', menu.level_1_id, menu.level_2_id
+		db.session.add(menu)
 		db.session.commit()
-		write_unit_table(form.units.data)
-		flash(u'成功增加一条机柜记录!')
-		return redirect(url_for("datacenter.rack_list"))
-	return render_template('datacenter/rack_edit.html', form=form)
+		return redirect(url_for("account.menu_list"))
+	return render_template('account/menu_edit.html', form=form)
 
-@mod.route('/rack/detail/<int:id>')
-def rack_detail(id):
-	rack = Rack.query.filter_by(id=id).first()
-	units = Unit.query.filter(Unit.rack_id==rack.id).order_by(Unit.id.desc()).all()
-	form = RackDetailForm(request.form, rack)
-	form.location_id.choices = [(i.id, i.short_name) for i in Location.query.all()]
-	form.area_id.choices = [(i.id, i.name) for i in Area.query.all()]
-	vlans = [str(i) for i in rack.vlan_id.split(',')]
-	form.vlan_id.choices = [(i.id, i.name) for i in Vlan.query.filter(Vlan.id.in_(vlans)).all()]
-	return render_template('datacenter/rack_detail.html', form=form, units=units)
+@mod.route('/menu/detail/<int:id>')
+def menu_detail(id):
+    return render_template('home.html')
 
-@mod.route('/rack/edit/<int:id>', methods=['GET', 'POST'])
-def rack_edit(id):
-	rack = Rack.query.filter_by(id=id).first()
-	form = RackEditForm(request.form, rack)
-	form.location_id.choices = [(i.id, i.short_name) for i in Location.query.all()]
-	form.location_id.choices.insert(0, (0, u'- 指定机房 -'))
-	form.area_id.choices = [(i.id, i.name) for i in Area.query.all()]
-	form.area_id.choices.insert(0, (0, u'- 指定区域 -'))
-	form.vlan_id.choices = [(i.id, i.name) for i in Vlan.query.all()]
-	form.vlan_id.choices.insert(0, (0, u'- 不指定vlan -'))
+@mod.route('/menu/edit/<int:id>', methods=['GET', 'POST'])
+def menu_edit(id):
+    return render_template('home.html')
 
-	if form.validate_on_submit():
-		form.populate_obj(rack)
-		vlan_list = [str(i) for i in form.vlan_id.data]
-		rack.vlan_id = ','.join(vlan_list)
-		db.session.commit()
-		return redirect(url_for("datacenter.rack_list"))
-	return render_template('datacenter/rack_edit.html', form=form)
-
-@mod.route('/rack/delete/<int:id>')
-def rack_delete(id):
-	# 判断机柜中是否关联设备，如果没有删除，否则提示不能删除。涉及unit表
-	rack = Rack.query.filter_by(id=id).first()
-	db.session.query(Unit).filter(Unit.rack_id==rack.id).delete()
-	db.session.delete(rack)
-	db.session.commit()
-	return redirect(url_for('datacenter.rack_list'))
+@mod.route('/menu/delete/<int:id>')
+def menu_delete(id):
+	return render_template('home.html')
