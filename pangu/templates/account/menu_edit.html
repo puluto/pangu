@@ -22,9 +22,13 @@
 
 <script type="text/javascript">
 $(function(){
+    if ( $('#level_1_id').val() != 0 || $('#level_2_id').val() != 0) { 
+        $('#level_2_id').removeAttr('style'); 
+    }
+
     $('#level_1_id').change(function(){
         if ($(this).val() == 0) {
-            $('#level_2_id').attr('style', 'visibility:hidden');
+            $('#level_2_id').html(str).attr('style', 'visibility:hidden');
         }
         else {
             $.ajax({
@@ -34,12 +38,13 @@ $(function(){
                 dataType: 'json',
                 data: { choice: $(this).val() },
                 success: function(data) {
-                    var str = '';
+                /* console.log(data.json[0].id, data.json[0].name, data.json[1].id, data.json[1].name) */
+                    var str = '<option value="0" selected>- 设置为二级菜单 -</option>'
                     for (var i = 0; i < data.json.length; i++) {
                         var c = data.json[i];
                         str += '<option value=' + c.id + '>' + c.name + '</option>';
                     }
-                    $('#level_2_id').append(str).removeAttr('style');
+                    $('#level_2_id').html(str).removeAttr('style');
                 }
             });
         }

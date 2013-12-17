@@ -26,7 +26,7 @@ class Menu(db.Model):
     id = db.Column(db.Integer, index=True, primary_key=True)
     name = db.Column(db.String(20), index=True, nullable=False)
     code_name = db.Column(db.String(20), index=True, nullable=False)
-    url = db.Column(db.String(20))
+    url = db.Column(db.String(200))
     level_1_id = db.Column(db.Integer) # 0,表明为1级菜单; 非0,表明为2级菜单; 
     level_2_id = db.Column(db.Integer) # 0,表明为2级菜单; 非0,表明为3级菜单; 
     notes = db.Column(db.String(200))
