@@ -9,41 +9,16 @@
             <fieldset>
                 {{ render_field(form.id, class="pure-input-1-2", readonly="readonly") }}
                 {{ render_field(form.name, class="pure-input-1-2", readonly="readonly") }}
-                {{ render_field(form.units, class="pure-input-1-3", readonly="readonly") }}
-                {{ render_field(form.capacity, class="pure-input-1-3", readonly="readonly") }}
+                {{ render_field(form.code_name, class="pure-input-1-2", readonly="readonly") }}
+                {{ render_field(form.mail, class="pure-input-1-2", readonly="readonly") }}
+                {{ render_field(form.mobile, class="pure-input-1-2", readonly="readonly") }}
                 {{ render_field(form.notes, rows="10", class="pure-input-2-3", readonly="readonly") }}
-                {{ render_field(form.location_id, class="pure-input-1-3", disabled="disabled") }}
-                {{ render_field(form.area_id, class="pure-input-1-3", disabled="disabled") }}
-                {{ render_field(form.vlan_id, class="pure-input-1-3", disabled="disabled") }}
+                {{ render_field(form.team_id, class="pure-input-1-3", disabled="disabled") }}
                 {{ render_field(form.update_user, class="pure-input-1-3", readonly="readonly") }}
                 {{ render_field(form.update_time, class="pure-input-1-3", readonly="readonly") }}
-                <a class="pure-button pure-button-success" href="{{ url_for('datacenter.rack_list') }}">返回</a>
+                <a class="pure-button pure-button-success" href="{{ url_for('account.user_list') }}">返回</a>
              </fieldset>
         </form>
-    </div>
-    <div class="pure-u-1-2">
-        <p>
-        <table class="pure-table pure-table-bordered">
-            <thead>
-                <tr>
-                    <td>#</td>
-                    <td>-------------------- 左侧 --------------------</td>
-                    <td>-------------------- 右侧 --------------------</td>
-                </tr>
-            </thead>
-            <tbody>
-                {% for unit in units %}
-                    <tr>
-                        <td>{{ unit.name }}</td>
-                        {% if unit.all_dev_id == 0 %}
-                            <td>{{ unit.left_dev_id }}</td><td>{{ unit.right_dev_id }}</td></tr>
-                        {% else %}
-                            <td colspan="2">{{ unit.all_dev_id }}</td>
-                        {% endif %}
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
     </div>
 </div>
 

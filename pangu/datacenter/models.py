@@ -32,7 +32,7 @@ class Rack(db.Model):
     update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
     location_id = db.Column(db.Integer)
     area_id = db.Column(db.Integer)
-    vlan_id = db.Column(db.String(20))  
+    vlan_id = db.Column(db.String(200))  # 机柜关联多个vlan,使用string类型,如 1,2,3,4,5,6 
 
 class Unit(db.Model):
     id = db.Column(db.Integer, index=True, primary_key=True)

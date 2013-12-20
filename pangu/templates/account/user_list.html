@@ -16,7 +16,7 @@
         </table>
     </div>
     <div align="right" class="pure-u-1-8">
-        <a class="pure-button pure-button-primary" href="{{ url_for('datacenter.rack_add') }}">添加新记录</a> 
+        <a class="pure-button pure-button-primary" href="{{ url_for('account.user_add') }}">添加新记录</a> 
     </div>
 </div>
 
@@ -26,32 +26,30 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>名称</th>
-            <th>空间容量(u)</th>
-            <th>设备容量</th>
-            <th>所属机房</th>
-            <th>所属区域</th>
+            <th>中文姓名</th>
+            <th>中文全拼(u)</th>
+            <th>邮件地址</th>
+            <th>移动电话</th>
+            <th>团队负责人</th>
+            <th>所属团队</th>
             <th>操作</th>
         </tr>
     </thead>
     <tbody>
-        {% for rack in racks %}
+        {% for user in users %}
         <tr>
-            <td>{{ rack.id }}</td>            
-            <td>{{ rack.name }}</td>
-            <td>{{ rack.units }}</td>
-            <td>{{ rack.capacity }}</td>
-            {% if rack.location_id == 0 %}
+            <td>{{ user[0].id }}</td>            
+            <td>{{ user[0].name }}</td>
+            <td>{{ user[0].code_name }}</td>
+            <td>{{ user[0].mail }}</td>
+            <td>{{ user[0].mobile }}</td>
+            {% if user[0].leader %}<td>是</td>{% else %}<td>否</td>{% endif %}
+            {% if user[0].team_id == 0 %}
                 <td>未指定</td>
             {% else %}
-                <td>{{ locations[rack.location_id-1]}}</td>
+                <td>{{ user[1].name }}</td>
             {% endif %}
-            {% if rack.location_id ==0 %}
-                <td>未指定</td>
-            {% else %}
-                <td>{{ areas[rack.area_id-1]}}</td>
-            {% endif %}
-            <td><a href="{{ url_for('datacenter.rack_detail', id=rack.id) }}"><i class="fa fa-search"></i></a> <a href="{{ url_for('datacenter.rack_edit', id=rack.id) }}"><i class="fa fa-edit"></i></a> <a href="{{ url_for('datacenter.rack_delete', id=rack.id) }}"><i class="fa fa-trash-o"></i></a></td>
+            <td><a href="{{ url_for('account.user_detail', id=user[0].id) }}"><i class="fa fa-search"></i></a> <a href="{{ url_for('account.user_edit', id=user[0].id) }}"><i class="fa fa-edit"></i></a> <a href="{{ url_for('account.user_delete', id=user[0].id) }}"><i class="fa fa-trash-o"></i></a></td>
         </tr>
         {% endfor %}
     </tbody>

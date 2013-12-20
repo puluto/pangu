@@ -3,18 +3,18 @@
 {% from "forms/macros.html" import render_field %}
 
 <div class="content pure-g-r">
-    <div class="pure-u-1">
+    <div class="pure-u-1-2">
         <form class="pure-form pure-form-aligned" method="post">
             {{ form.csrf_token }}
             <fieldset>
-                {{ render_field(form.name, class="pure-input-1-4", placeholder="设备信息") }}
-                {{ render_field(form.code_name, class="pure-input-1-4", placeholder="device") }}
-                {{ render_field(form.url, class="pure-input-1-4", placeholder="/device/server/") }}
-                {{ render_field(form.notes, rows='15', class="pure-input-1-2") }}
+                {{ render_field(form.name, class="pure-input-1-2", placeholder="设备信息") }}
+                {{ render_field(form.code_name, class="pure-input-1-2", placeholder="device") }}
+                {{ render_field(form.url, class="pure-input-1-2", placeholder="/device/server/") }}
+                {{ render_field(form.notes, rows='15', class="pure-input-2-3") }}
                 {{ render_field(form.level_1_id, class="pure-input-1-5") }}
                 {{ render_field(form.level_2_id, class="pure-input-1-5", style="visibility:hidden") }}
                 <input type="submit" class="pure-button pure-button-primary" value="提交">
-                <a class="pure-button pure-button-success" href="{{ url_for('account.menu_list') }}">返回</a>
+                <a class="pure-button pure-button-success" href="{{ url_for('account.resource_list') }}">返回</a>
              </fieldset>
         </form>
     </div>
@@ -33,7 +33,7 @@ $(function(){
         else {
             $.ajax({
                 type: 'GET',
-                url: $SCRIPT_ROOT + '{{ url_for('account.menu_selectlist') }}',
+                url: $SCRIPT_ROOT + '{{ url_for('account.resource_selectlist') }}',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
                 data: { choice: $(this).val() },

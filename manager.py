@@ -4,6 +4,7 @@ from datetime import datetime
 from pangu import app, db
 from pangu.manufacture.models import Manufacture 
 from pangu.subnet.models import Subnet
+from pangu.account.models import User, Resource
 
 manager = Manager(app)
 manager.add_command('runserver', Server(host='0.0.0.0', use_debugger=True))
@@ -27,6 +28,12 @@ def initial_tables():
             producer=True, software=False, supplier=False, notes=u'详细'),
         Manufacture(short_name=u'无锡电信', full_name=u'中国电信无锡电信分公司', sites=u'http://js.189.cn/bussiness/page/new/index.html', \
             producer=False, software=False, supplier=True, notes=u'详细')])
+    
+    db.session.add_all([
+        User(name=u'系统管理员', code_name=u'admin', password=u'password', \
+            mail='admin@local', mobile='13900000000', leader=False),
+        User(name=u'普通登录用户', code_name=u'guest', password=u'guest', \
+            mail='guest@local', mobile='13800000000', leader=False)])
 
     db.session.commit()
 

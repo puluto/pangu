@@ -11,9 +11,9 @@ mod = Blueprint('datacenter', __name__)
 
 @mod.route('/location/')
 def location_list():
-	locations = Location.query.order_by(Location.id)
-	manufactures = [ i.short_name for i in Manufacture.query.order_by(Manufacture.id)]
-	return render_template('datacenter/location_list.html', locations=locations, manufactures=manufactures)
+	locations = db.session.query(Location, Manufacture) \
+		.outerjoin(Manufacture, Location.manufacture_id == Manufacture.id).all()
+	return render_template('datacenter/location_list.html', locations=locations)
 
 @mod.route('/location/add/', methods=['GET', 'POST'])
 def location_add():
@@ -57,9 +57,9 @@ def location_delete(id):
 
 @mod.route('/area/')
 def area_list():
-	areas = Area.query.order_by(Area.id)
-	locations = [ i.short_name for i in Location.query.order_by(Location.id)]
-	return render_template('datacenter/area_list.html', areas=areas, locations=locations)
+	areas = db.session.query(Area, Location) \
+		.outerjoin(Location, Area.location_id == Location.id).all()
+	return render_template('datacenter/area_list.html', areas=areas)
 
 @mod.route('/area/add/', methods=['GET', 'POST'])
 def area_add():
@@ -119,10 +119,11 @@ def write_unit_table(units):
 
 @mod.route('/rack/')
 def rack_list():
-	racks = Rack.query.order_by(Rack.id)
-	locations = [i.short_name for i in Location.query.all()]
-	areas = [i.name for i in Area.query.all()]
-	return render_template('datacenter/rack_list.html', racks=racks, locations=locations, areas=areas)
+	racks = db.session.query(Rack, Location, Area) \
+		.outerjoin(Location, Rack.location_id == Location.id) \
+		.outerjoin(Area, Rack.area_id == Area.id) \
+		.all()
+	return render_template('datacenter/rack_list.html', racks=racks)
 
 @mod.route('/rack/add/', methods=['GET', 'POST'])
 def rack_add():
@@ -132,7 +133,7 @@ def rack_add():
 	form.area_id.choices = [(i.id, i.name) for i in Area.query.all()]
 	form.area_id.choices.insert(0, (0, u'- 指定区域 -'))
 	form.vlan_id.choices = [(i.id, i.name) for i in Vlan.query.all()]
-	form.vlan_id.choices.insert(0, (0, u'- 不指定vlan -'))
+	form.vlan_id.choices.insert(0, (0, u'- 指定vlan -'))
 	
 	if form.validate_on_submit():
 		rack = Rack()
@@ -166,7 +167,7 @@ def rack_edit(id):
 	form.area_id.choices = [(i.id, i.name) for i in Area.query.all()]
 	form.area_id.choices.insert(0, (0, u'- 指定区域 -'))
 	form.vlan_id.choices = [(i.id, i.name) for i in Vlan.query.all()]
-	form.vlan_id.choices.insert(0, (0, u'- 不指定vlan -'))
+	form.vlan_id.choices.insert(0, (0, u'- 指定vlan -'))
 
 	if form.validate_on_submit():
 		form.populate_obj(rack)

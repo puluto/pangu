@@ -16,7 +16,7 @@
         </table>
     </div>
     <div align="right" class="pure-u-1-8">
-        <a class="pure-button pure-button-primary" href="{{ url_for('account.menu_add') }}">添加新记录</a> 
+        <a class="pure-button pure-button-primary" href="{{ url_for('account.resource_add') }}">添加新记录</a> 
     </div>
 </div>
 
@@ -36,22 +36,22 @@
         </tr>
     </thead>
     <tbody>
-        {% for menu in menus %}
+        {% for resource in resources %}
         <tr>
-            <td>{{ menu.id }}</td>            
-            <td>{{ menu.name }}</td>
-            <td>{{ menu.code_name }}</td>
-            <td>{{ menu.url }}</td>
-            {% if menu.level_1_id == 0 and menu.level_2_id == 0 %}
+            <td>{{ resource[0].id }}</td>            
+            <td>{{ resource[0].name }}</td>
+            <td>{{ resource[0].code_name }}</td>
+            <td>{{ resource[0].url }}</td>
+            {% if resource[0].level_1_id == 0 and resource[0].level_2_id == 0 %}
                 <td>1级菜单</td>
-            {% elif menu.level_1_id != 0 and menu.level_2_id == 0 %}
+            {% elif resource[0].level_1_id != 0 and resource[0].level_2_id == 0 %}
                 <td>2级菜单</td>
             {% else %}
                 <td>3级菜单</td>
             {% endif %}
-            {% if menu.level_1_id !=0 %}<td>{{ parent[menu.level_1_id-1] }}</td>{% else %}<td></td>{% endif %}
-            {% if menu.level_2_id !=0 %}<td>{{ parent[menu.level_2_id-1] }}</td>{% else %}<td></td>{% endif %}
-            <td><a href="{{ url_for('account.menu_detail', id=menu.id) }}"><i class="fa fa-search"></i></a> <a href="{{ url_for('account.menu_edit', id=menu.id) }}"><i class="fa fa-edit"></i></a> <a href="{{ url_for('account.menu_delete', id=menu.id) }}"><i class="fa fa-trash-o"></i></a></td>
+            {% if resource[0].level_1_id !=0 %}<td>{{ resource[1].name }}</td>{% else %}<td></td>{% endif %}
+            {% if resource[0].level_2_id !=0 %}<td>{{ resource[2].name }}</td>{% else %}<td></td>{% endif %}
+            <td><a href="{{ url_for('account.resource_detail', id=resource[0].id) }}"><i class="fa fa-search"></i></a> <a href="{{ url_for('account.resource_edit', id=resource[0].id) }}"><i class="fa fa-edit"></i></a> <a href="{{ url_for('account.resource_delete', id=resource[0].id) }}"><i class="fa fa-trash-o"></i></a></td>
         </tr>
         {% endfor %}
     </tbody>

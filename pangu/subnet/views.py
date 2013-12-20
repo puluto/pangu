@@ -81,9 +81,8 @@ def net_delete(id):
 
 @mod.route('/vlan/')
 def vlan_list():
-	vlans = Vlan.query.order_by(Vlan.id)
-	subnets = [ i.name for i in Subnet.query.order_by(Subnet.id)]
-	return render_template('subnet/vlan_list.html', vlans=vlans, subnets=subnets)
+	vlans = db.session.query(Vlan, Subnet).outerjoin(Subnet, Vlan.subnet_id==Subnet.id).all()
+	return render_template('subnet/vlan_list.html', vlans=vlans)
 
 @mod.route('/vlan/add/', methods=['GET', 'POST'])
 def vlan_add():

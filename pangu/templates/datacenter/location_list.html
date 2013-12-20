@@ -41,17 +41,17 @@
     <tbody>
         {% for location in locations %}
         <tr>
-            <td>{{ location.id }}</td>            
-            <td>{{ location.short_name }}</td>
-            <td>{{ location.code_name }}</td>
-            <td>{{ location.ct_bandwidth }}</td>
-            <td>{{ location.cu_bandwidth }}</td>
-            <td>{{ location.other_bandwidth }}</td>
+            <td>{{ location[0].id }}</td>            
+            <td>{{ location[0].short_name }}</td>
+            <td>{{ location[0].code_name }}</td>
+            <td>{{ location[0].ct_bandwidth }}</td>
+            <td>{{ location[0].cu_bandwidth }}</td>
+            <td>{{ location[0].other_bandwidth }}</td>
             <td></td>
             <td></td>
             <td></td>
-            <td>{{ manufactures[location.manufacture_id-1] }}</td>
-            <td><a href="{{ url_for('datacenter.location_detail', id=location.id) }}"><i class="fa fa-search"></i></a> <a href="{{ url_for('datacenter.location_edit', id=location.id) }}"><i class="fa fa-edit"></i></a> <a href="{{ url_for('datacenter.location_delete', id=location.id) }}"><i class="fa fa-trash-o"></i></a></td>
+            <td>{{ location[1].short_name }}</td>
+            <td><a href="{{ url_for('datacenter.location_detail', id=location[0].id) }}"><i class="fa fa-search"></i></a> <a href="{{ url_for('datacenter.location_edit', id=location[0].id) }}"><i class="fa fa-edit"></i></a> <a href="{{ url_for('datacenter.location_delete', id=location[0].id) }}"><i class="fa fa-trash-o"></i></a></td>
         </tr>
         {% endfor %}
     </tbody>

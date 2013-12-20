@@ -7,50 +7,27 @@
         <form class="pure-form pure-form-aligned" method="post">
             {{ form.csrf_token }}
             <fieldset>
-                {{ render_field(form.name, class="pure-input-1-4", placeholder="a01") }}
-                {{ render_field(form.units, class="pure-input-1-4", placeholder="45") }}
-                {{ render_field(form.capacity, class="pure-input-1-4", placeholder="13") }}
+                {{ render_field(form.name, class="pure-input-1-4", placeholder="王五") }}
+                {{ render_field(form.code_name, class="pure-input-1-4", placeholder="wangwu") }}
+                {{ render_field(form.password, class="pure-input-1-4") }}
+                {{ render_field(form.confirm_password, class="pure-input-1-4") }}
+                {{ render_field(form.mail, class="pure-input-1-4", placeholder="wangwu@sina.com") }}
+                {{ render_field(form.mobile, class="pure-input-1-4", placeholder="1390123456") }}
+                {{ render_field(form.leader) }}
                 {{ render_field(form.notes, rows='15', class="pure-input-1-2") }}
-                {{ render_field(form.location_id, class="pure-input-1-4") }}
-                {{ render_field(form.area_id, class="pure-input-1-4", disabled="disabled") }}
-                {{ render_field(form.vlan_id, class="pure-input-1-4") }}
+                {{ render_field(form.team_id, class="pure-input-1-5") }}
                 <input type="submit" class="pure-button pure-button-primary" value="提交">
-                <a class="pure-button pure-button-success" href="{{ url_for('datacenter.rack_list') }}">返回</a>
+                <a class="pure-button pure-button-success" href="{{ url_for('account.user_list') }}">返回</a>
              </fieldset>
         </form>
     </div>
 </div>
-
 <script type="text/javascript">
 $(function(){
-    if ( $('#area_id').val() != 0 ) { 
-        $('#area_id').removeAttr('disabled'); 
+    var password = $('#password').val();
+    if ( password != 'undefine') {
+        $('#confirm_password').val(password);
     }
-   
-    $('#location_id').change(function(){
-        if ($(this).val() == 0) {
-            var str = '<option value="0" selected>- 指定区域 -</option>'   
-            $('#area_id').html(str)
-        }
-        else {
-            $.ajax({
-                type: 'GET',
-                url: $SCRIPT_ROOT + '{{ url_for('datacenter.area_selectlist') }}',
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                data: { choice: $(this).val() },
-                success: function(data) {
-                /* console.log(data.json[0].id, data.json[0].name, data.json[1].id, data.json[1].name) */
-                    var str = '';
-                    for (var i = 0; i < data.json.length; i++) {
-                        var c = data.json[i];
-                        str += '<option value=' + c.id + '>' + c.name + '</option>';
-                    }
-                    $('#area_id').html(str).removeAttr('disabled');
-                }
-            });
-        }
-    });
 });
 </script>
 {% endblock %}

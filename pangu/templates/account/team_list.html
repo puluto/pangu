@@ -16,7 +16,7 @@
         </table>
     </div>
     <div align="right" class="pure-u-1-8">
-        <a class="pure-button pure-button-primary" href="{{ url_for('subnet.vlan_add') }}">添加新记录</a> 
+        <a class="pure-button pure-button-primary" href="{{ url_for('account.team_add') }}">添加新记录</a> 
     </div>
 </div>
 
@@ -26,24 +26,20 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>名称</th>
-            <th>备注</th>
-            <th>关联子网</th>
+            <th>团队名称</th>
+            <th>负责人</th>
+            <th>成员</th>
             <th>操作</th>
         </tr>
     </thead>
     <tbody>
-        {% for vlan in vlans %}
+        {% for team in teams %}
         <tr>
-            <td>{{ vlan[0].id }}</td>            
-            <td>{{ vlan[0].name }}</td>
-            <td>{{ vlan[0].notes }}</td>
-            {% if vlan[0].subnet_id == 0 %}
-                <td>未指定</td>
-            {% else %}
-                <td>{{ vlan[1].name }}</td>
-            {% endif %}
-            <td><a href="{{ url_for('subnet.vlan_detail', id=vlan[0].id) }}"><i class="fa fa-search"></i></a> <a href="{{ url_for('subnet.vlan_edit', id=vlan[0].id) }}"><i class="fa fa-edit"></i></a> <a href="{{ url_for('subnet.vlan_delete', id=vlan[0].id) }}"><i class="fa fa-trash-o"></i></a></td>
+            <td>{{ team[0].id }}</td>            
+            <td>{{ team[0].name }}</td>
+            <td>{{ team[1].name }}</td>
+            <td></td>
+            <td><a href="{{ url_for('account.team_detail', id=team[0].id) }}"><i class="fa fa-search"></i></a> <a href="{{ url_for('account.team_edit', id=team[0].id) }}"><i class="fa fa-edit"></i></a> <a href="{{ url_for('account.team_delete', id=team[0].id) }}"><i class="fa fa-trash-o"></i></a></td>
         </tr>
         {% endfor %}
     </tbody>

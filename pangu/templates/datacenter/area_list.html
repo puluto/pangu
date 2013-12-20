@@ -28,18 +28,18 @@
             <th>#</th>
             <th>名称</th>
             <th>机柜数量</th>
-            <th>关联机房</th>
+            <th>所属机房</th>
             <th>操作</th>
         </tr>
     </thead>
     <tbody>
         {% for area in areas %}
         <tr>
-            <td>{{ area.id }}</td>            
-            <td>{{ area.name }}</td>
+            <td>{{ area[0].id }}</td>            
+            <td>{{ area[0].name }}</td>
             <td></td>
-            <td>{{ locations[area.location_id-1] }}</td>
-            <td><a href="{{ url_for('datacenter.area_detail', id=area.id) }}"><i class="fa fa-search"></i></a> <a href="{{ url_for('datacenter.area_edit', id=area.id) }}"><i class="fa fa-edit"></i></a> <a href="{{ url_for('datacenter.area_delete', id=area.id) }}"><i class="fa fa-trash-o"></i></a></td>
+            <td>{{ area[1].short_name }}</td>
+            <td><a href="{{ url_for('datacenter.area_detail', id=area[0].id) }}"><i class="fa fa-search"></i></a> <a href="{{ url_for('datacenter.area_edit', id=area[0].id) }}"><i class="fa fa-edit"></i></a> <a href="{{ url_for('datacenter.area_delete', id=area[0].id) }}"><i class="fa fa-trash-o"></i></a></td>
         </tr>
         {% endfor %}
     </tbody>
