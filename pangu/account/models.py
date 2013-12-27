@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*
 from datetime import datetime
+from sqlalchemy.ext.hybrid import hybrid_property
+from werkzeug import check_password_hash, generate_password_hash
+
 from pangu import db
 
 class Resource(db.Model):
@@ -28,15 +31,32 @@ class User(db.Model):
     id = db.Column(db.Integer, index=True, primary_key=True)
     name = db.Column(db.String(20), index=True, unique=True, nullable=False)
     code_name = db.Column(db.String(20), unique=True, nullable=False)
-    password = db.Column(db.String(20), nullable=False)
+    _password = db.Column(db.String(120))
     mail = db.Column(db.String(50), unique=True, nullable=False)
     mobile = db.Column(db.String(50), unique=True, nullable=False)
-    leader = db.Column(db.Boolean, default=False) # 是否为团队负责人
+    leader = db.Column(db.Boolean, default=False) # 可担当团队负责人
     notes = db.Column(db.String(200))
     update_user = db.Column(db.String(20), default='admin')
     update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
-    team_id = db.Column(db.Integer, default=0)
 
+    @hybrid_property
+    def password(self):
+        return self._password
+
+    @password.setter
+    def password(self, value):
+        self._password = generate_password_hash(value)
+
+    def check_password(self, password):
+        if self.password is None:
+            return False
+        
+        password = password.strip()
+        
+        if not password:
+            return False
+        return check_password_hash(self.password, password)
+  
 class Team(db.Model):
     id = db.Column(db.Integer, index=True, primary_key=True)
     name = db.Column(db.String(20), index=True)
@@ -44,4 +64,4 @@ class Team(db.Model):
     update_user = db.Column(db.String(20), default='admin')
     update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
     leader_id = db.Column(db.Integer, default=0) # 团队负责人
-    resource_id = db.Column(db.Integer, default=0)
+    member_id = db.Column(db.String(200))

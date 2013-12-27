@@ -13,8 +13,10 @@
                 {{ render_field(form.notes, rows='15', class="pure-input-2-3") }}
                 {{ render_field(form.level_1_id, class="pure-input-1-5") }}
                 {{ render_field(form.level_2_id, class="pure-input-1-5", style="visibility:hidden") }}
-                <input type="submit" class="pure-button pure-button-primary" value="提交">
-                <a class="pure-button pure-button-success" href="{{ url_for('account.resource_list') }}">返回</a>
+                <div style="padding-top:5px;padding-left:146px"> 
+                    <input type="submit" class="pure-button pure-button-primary" value="提交">
+                    <a class="pure-button pure-button-success" href="{{ url_for('account.resource_list') }}">返回</a> 
+                </div>
              </fieldset>
         </form>
     </div>

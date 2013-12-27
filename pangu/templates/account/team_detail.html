@@ -9,13 +9,12 @@
             <fieldset>
                 {{ render_field(form.id, class="pure-input-1-2", readonly="readonly") }}
                 {{ render_field(form.name, class="pure-input-1-2", readonly="readonly") }}
-                {{ render_field(form.code_name, class="pure-input-1-2", readonly="readonly") }}
-                {{ render_field(form.mail, class="pure-input-1-2", readonly="readonly") }}
-                {{ render_field(form.mobile, class="pure-input-1-2", readonly="readonly") }}
+                {{ render_field(form.leader_id, class="pure-input-1-4", disabled="disabled") }}
+                {{ render_field(form.member_id, class="pure-input-1-4", disabled="disabled") }}
                 {{ render_field(form.notes, rows="10", class="pure-input-2-3", readonly="readonly") }}
                 {{ render_field(form.update_user, class="pure-input-1-3", readonly="readonly") }}
                 {{ render_field(form.update_time, class="pure-input-1-3", readonly="readonly") }}
-                <a class="pure-button pure-button-success" href="{{ url_for('account.user_list') }}">返回</a>
+                <a class="pure-button pure-button-success" href="{{ url_for('account.team_list') }}">返回</a>
              </fieldset>
         </form>
     </div>

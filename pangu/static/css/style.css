@@ -133,3 +133,8 @@ html, body {
     color: #0099cc;
     text-decoration:none;
 }
+
+
+.mmGrid .mmg-headWrapper {
+    z-index: 0;
+}

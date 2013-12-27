@@ -25,13 +25,12 @@ class ResourceDetailForm(Form):
 class UserEditForm(Form):
     name = TextField(u'中文姓名', [Required()])
     code_name = TextField(u'中文全拼', [Required()])
-    password = TextField(u'密码', [Required()])
+    password = TextField(u'密码(hash加密)', [Required()])
     confirm_password = TextField(u'重复密码', [Required()])
     mail = TextField(u'邮件地址')
     mobile = TextField(u'移动电话')
-    leader = BooleanField(u'团队负责人')
+    leader = BooleanField(u'可担任负责人')
     notes = TextAreaField(u'备注')
-    team_id = SelectField(u'关联团队', coerce=int)
 
 class UserDetailForm(Form):
     id = TextField(u'#')
@@ -40,19 +39,20 @@ class UserDetailForm(Form):
     mail = TextField(u'邮件地址')
     mobile = TextField(u'移动电话')
     notes = TextAreaField(u'备注')
-    team_id = SelectField(u'关联团队', coerce=int)
     update_user = TextField(u'更新用户')
     update_time = TextField(u'更新时间')
 
 class TeamEditForm(Form):
     name = TextField(u'团队名称', [Required()])
     leader_id = SelectField(u'团队负责人', coerce=int)
+    member_id = SelectMultipleField(u'团队成员', coerce=int)
     notes = TextAreaField(u'备注')
 
 class TeamDetailForm(Form):
     id = TextField(u'#')
     name = TextField(u'团队名称', [Required()])
     leader_id = SelectField(u'团队负责人', coerce=int)
+    member_id = SelectMultipleField(u'团队成员', coerce=int)
     notes = TextAreaField(u'备注')
     update_user = TextField(u'更新用户')
     update_time = TextField(u'更新时间')

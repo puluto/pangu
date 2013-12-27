@@ -15,7 +15,6 @@
                 {{ render_field(form.mobile, class="pure-input-1-4", placeholder="1390123456") }}
                 {{ render_field(form.leader) }}
                 {{ render_field(form.notes, rows='15', class="pure-input-1-2") }}
-                {{ render_field(form.team_id, class="pure-input-1-5") }}
                 <input type="submit" class="pure-button pure-button-primary" value="提交">
                 <a class="pure-button pure-button-success" href="{{ url_for('account.user_list') }}">返回</a>
              </fieldset>

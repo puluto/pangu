@@ -8,10 +8,19 @@
 
         <link rel="stylesheet" href="{{ url_for('static', filename='css/pure-min.css') }}"> 
         <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}"> 
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='mmGrid/src/mmGrid.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='mmGrid/src/mmPaginator.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='mmGrid/src/mmTreeGrid.css') }}">
+
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> 
-        
+     
         <script src="{{ url_for('static', filename='js/jquery-1.10.2.min.js') }}"></script>
         <script src="{{ url_for('static', filename='js/yui-min.js') }}"></script>
+
+        <script src="{{ url_for('static', filename='mmGrid/src/mmGrid.js') }}"></script>
+        <script src="{{ url_for('static', filename='mmGrid/src/mmPaginator.js') }}"></script>
+        <script src="{{ url_for('static', filename='mmGrid/src/mmTreeGrid.js') }}"></script>
 
         <script type=text/javascript>
           var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
@@ -23,50 +32,52 @@
             <div class="pure-u-5-6">
             <div id="navbar-horizontal-menu" class="pure-menu pure-menu-open pure-menu-horizontal">
                 <ul id="navbar-menu-items">
-                    <li class="pure-menu-selected"><a href="{{ url_for('home') }}"><i class="fa fa-home"> Home</i></a></li>
-                    <li>设备信息
+                    <li id='navbar-0' class="pure-menu-selected"><a href="{{ url_for('home') }}"><i class="fa fa-home"> Home</i></a></li>
+                    <li id='navbar-1'>设备信息
                         <ul>
-                            <li><a href="{{ url_for('server') }}">服务器</a></li>
-                            <li><a href="#">网络设备</a></li>
-                            <li><a href="#">存储设备</a></li>
-                            <li><a href="#">采集设备</a></li>
-                            <li><a href="#">配件</a></li>
-                            <li><a href="#">模板</a></li>
+                            <li id='navbar-1-1'><a href="{{ url_for('server') }}">服务器</a></li>
+                            <li id='navbar-1-2'><a href="#">网络设备</a></li>
+                            <li id='navbar-1-3'><a href="#">存储设备</a></li>
+                            <li id='navbar-1-4'><a href="#">采集设备</a></li>
+                            <li id='navbar-1-5'><a href="#">配件</a></li>
+                            <li id='navbar-1-6'><a href="#">模板</a></li>
                         </ul>
                     </li>
-                    <li>工作流
+                    <li id='navbar-2'>工作流
                         <ul>
-                            <li><a href="#">运维工单</a></li>
-                            <li><a href="#">运维笔记</a></li>
+                            <li id='navbar-2-1'><a href="#">运维工单</a></li>
+                            <li id='navbar-2-2'><a href="#">运维笔记</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">性能监控</a></li>
-                    <li>OS安装
+                    <li id='navbar-3'>监控管理
+                    </li>
+                    <li id='navbar-4'>OS安装
                         <ul>
-                            <li><a href="#">安装模板</a></li>
-                            <li><a href="#">任务模板</a></li>
-                            <li><a href="#">任务管理</a></li>
+                            <li id='navbar-4-1'><a href="#">安装模板</a></li>
+                            <li id='navbar-4-2'><a href="#">任务模板</a></li>
+                            <li id='navbar-4-3'><a href="#">任务管理</a></li>
                         </ul>
                     </li>
-                    <li>应用部署
+                    <li id='navbar-5'>应用部署
                         <ul>
                             <li><a href="#">yum安装源</a></li>
                             <li><a href="#">应用模板</a></li>
                         </ul>
                     </li>
-                    <li>日志管理
+                    <li id='navbar-6'>日志管理
                         <ul>
                             <li><a href="#">系统日志</a></li>
                             <li><a href="#">应用日志</a></li>
                         </ul>
                     </li>
-                    <li>配置管理
+                    <li id='navbar-7'>配置管理
                         <ul>
                             <li>账户权限
                                 <ul>
+                                    <li><a href="{{ url_for('account.resource_list') }}">资源</a></li>
                                     <li><a href="{{ url_for('account.user_list') }}">用户</a></li>
                                     <li><a href="{{ url_for('account.team_list') }}">团队</a></li>
-                                    <li><a href="{{ url_for('account.resource_list') }}">资源</a></li>
+                                    <li><a href="{{ url_for('account.permission_edit') }}">权限</a></li>
                                 </ul>
                             <li>数据中心
                                 <ul>
@@ -91,7 +102,7 @@
                             <li><a href="{{ url_for('manufacture.list') }}">第三方厂商</a></li>
                         </ul> 
                     </li>
-                    <li><a href="#">使用文档</a></li>
+                    <li id='navbar-99   '><a href="#">使用文档</a></li>
                 </ul>
             </div>
             </div>

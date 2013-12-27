@@ -110,7 +110,6 @@ def write_unit_table(units):
 		rack_id = 1
 	else:
 		rack_id = rack.id
-	print rack_id
 	db.session.execute(
 		Unit.__table__.insert(),
 		[{'name': i, 'rack_id': rack_id} for i in xrange(1, int(units)+1)]

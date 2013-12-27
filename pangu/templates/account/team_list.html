@@ -38,7 +38,7 @@
             <td>{{ team[0].id }}</td>            
             <td>{{ team[0].name }}</td>
             <td>{{ team[1].name }}</td>
-            <td></td>
+            <td>{{ team[0].member_id }}</td>
             <td><a href="{{ url_for('account.team_detail', id=team[0].id) }}"><i class="fa fa-search"></i></a> <a href="{{ url_for('account.team_edit', id=team[0].id) }}"><i class="fa fa-edit"></i></a> <a href="{{ url_for('account.team_delete', id=team[0].id) }}"><i class="fa fa-trash-o"></i></a></td>
         </tr>
         {% endfor %}
