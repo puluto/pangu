@@ -132,7 +132,7 @@ CREATE TABLE `manufacture` (
   UNIQUE KEY `full_name` (`full_name`),
   UNIQUE KEY `ix_manufacture_short_name` (`short_name`),
   KEY `ix_manufacture_id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,8 +141,39 @@ CREATE TABLE `manufacture` (
 
 LOCK TABLES `manufacture` WRITE;
 /*!40000 ALTER TABLE `manufacture` DISABLE KEYS */;
-INSERT INTO `manufacture` VALUES (1,'DELL','戴尔(中国)计算机有限公司','http://www.dell.com.cn',1,0,1,'详细','admin','2013-12-19 14:57:06'),(2,'IBM','国际商用(中国)计算机有限公司','http://www.ibm.com.cn',1,0,1,'详细','admin','2013-12-19 14:57:06'),(3,'infortrend','普安科技有限公司','http://www.infortrend.com/tw',1,0,0,'详细','admin','2013-12-19 14:57:06'),(4,'promise','乔鼎资讯股份有限公司','http://www.promise.com',1,0,0,'详细','admin','2013-12-19 14:57:06'),(5,'Supermicro','超微计算机有限公司','http://www.supermicro.com.tw',1,0,0,'详细','admin','2013-12-19 14:57:06'),(6,'无锡电信','中国电信无锡电信分公司','http://js.189.cn/bussiness/page/new/index.html',0,0,1,'详细','admin','2013-12-19 14:57:06'),(7,'北京电信通','北京电信通电信工程有限公司','http://www.idcdxt.cn/',0,0,1,'','admin','2013-12-19 16:09:59');
+INSERT INTO `manufacture` VALUES (1,'DELL','戴尔(中国)计算机有限公司','http://www.dell.com.cn',1,0,1,'详细','admin','2013-12-30 16:41:43'),(2,'IBM','国际商用(中国)计算机有限公司','http://www.ibm.com.cn',1,0,1,'详细','admin','2013-12-30 16:41:43'),(3,'infortrend','普安科技有限公司','http://www.infortrend.com/tw',1,0,0,'详细','admin','2013-12-30 16:41:43'),(4,'promise','乔鼎资讯股份有限公司','http://www.promise.com',1,0,0,'详细','admin','2013-12-30 16:41:43'),(5,'Supermicro','超微计算机有限公司','http://www.supermicro.com.tw',1,0,0,'详细','admin','2013-12-30 16:41:43'),(6,'无锡电信','中国电信无锡电信分公司','http://js.189.cn/bussiness/page/new/index.html',0,0,1,'详细','admin','2013-12-30 16:41:43');
 /*!40000 ALTER TABLE `manufacture` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `permission`
+--
+
+DROP TABLE IF EXISTS `permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `list_action` tinyint(1) DEFAULT NULL,
+  `detail_action` tinyint(1) DEFAULT NULL,
+  `update_action` tinyint(1) DEFAULT NULL,
+  `delete_action` tinyint(1) DEFAULT NULL,
+  `update_user` varchar(20) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `team_id` int(11) DEFAULT NULL,
+  `resource_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ix_permission_id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `permission`
+--
+
+LOCK TABLES `permission` WRITE;
+/*!40000 ALTER TABLE `permission` DISABLE KEYS */;
+/*!40000 ALTER TABLE `permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -200,7 +231,7 @@ CREATE TABLE `resource` (
   KEY `ix_menu_code_name` (`code_name`),
   KEY `ix_menu_id` (`id`),
   KEY `ix_menu_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -209,7 +240,7 @@ CREATE TABLE `resource` (
 
 LOCK TABLES `resource` WRITE;
 /*!40000 ALTER TABLE `resource` DISABLE KEYS */;
-INSERT INTO `resource` VALUES (1,'配置管理','config','',0,0,'','admin','2013-12-20 12:29:54'),(2,'账户权限','account','',1,0,'','admin','2013-12-20 12:30:00'),(3,'数据中心','datacenter','',1,0,'','admin','2013-12-20 12:30:04'),(4,'域名解析','dns','',1,0,'','admin','2013-12-20 12:30:09'),(5,'网络规划','subnet','',1,0,'','admin','2013-12-20 12:30:13'),(6,'第三方厂商','manufacture','',1,0,'','admin','2013-12-20 12:30:18'),(7,'用户','user','/account/user/',1,2,'','admin','2013-12-19 11:50:41'),(8,'团队','team','/account/team/',1,2,'','admin','2013-12-19 11:51:45'),(9,'菜单','menu','/account/menu/',1,2,'','admin','2013-12-19 11:52:08'),(10,'机房','location','/datacenter/location/',1,3,'','admin','2013-12-19 11:57:02'),(11,'区域','area','/datacenter/area/',1,3,'','admin','2013-12-19 11:54:11'),(12,'机柜','rack','/datacenter/rack/',1,3,'','admin','2013-12-19 11:56:51');
+INSERT INTO `resource` VALUES (1,'首页','navbar-0','',0,0,'','admin','2013-12-26 16:16:07'),(2,'设备信息','navbar-1','',0,0,'','admin','2013-12-26 16:11:45'),(3,'工作流','navbar-2','',0,0,'','admin','2013-12-26 16:11:50'),(4,'监控','navbar-3','',0,0,'','admin','2013-12-26 16:11:55'),(5,'OS安装','navbar-4','',0,0,'','admin','2013-12-26 16:12:00'),(6,'应用部署','navbar-5','',0,0,'','admin','2013-12-26 16:12:06'),(7,'日志管理','navbar-6','',0,0,'','admin','2013-12-26 16:12:13'),(8,'配置管理','navbar-7','',0,0,'','admin','2013-12-26 16:12:20'),(9,'使用文档','navbar-99','',0,0,'','admin','2013-12-26 16:16:12'),(10,'服务器','navbar-1-1','',2,0,'','admin','2013-12-27 10:02:21'),(11,'网络设备','navbar-1-2','',2,0,'','admin','2013-12-27 10:02:32'),(12,'存储设备','navbar-1-3','',2,0,'','admin','2013-12-27 10:02:37'),(13,'采集设备','navbar-1-4','',2,0,'','admin','2013-12-27 10:02:43'),(14,'配件','navbar-1-5','',2,0,'','admin','2013-12-27 10:02:48'),(15,'设备模板','navbar-1-6','',2,0,'','admin','2013-12-27 10:03:17');
 /*!40000 ALTER TABLE `resource` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -265,11 +296,10 @@ CREATE TABLE `team` (
   `update_user` varchar(20) DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `leader_id` int(11) DEFAULT NULL,
-  `resource_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `ix_team_id` (`id`),
   KEY `ix_team_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -278,7 +308,7 @@ CREATE TABLE `team` (
 
 LOCK TABLES `team` WRITE;
 /*!40000 ALTER TABLE `team` DISABLE KEYS */;
-INSERT INTO `team` VALUES (1,'运维组','','admin','2013-12-19 15:23:30',3,0),(2,'运营组','','admin','2013-12-19 15:23:53',6,0),(3,'网络组','','admin','2013-12-19 15:24:01',8,0),(4,'采集组','','admin','2013-12-19 15:24:10',10,0);
+INSERT INTO `team` VALUES (1,'管理组',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `team` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -325,7 +355,7 @@ CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL,
   `code_name` varchar(20) NOT NULL,
-  `password` varchar(20) NOT NULL,
+  `_password` varchar(120) DEFAULT NULL,
   `mail` varchar(50) NOT NULL,
   `mobile` varchar(50) NOT NULL,
   `leader` tinyint(1) DEFAULT NULL,
@@ -339,7 +369,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `mobile` (`mobile`),
   UNIQUE KEY `ix_user_name` (`name`),
   KEY `ix_user_id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -348,7 +378,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'系统管理员','admin','password','admin@local','1390000000',0,'','admin','2013-12-19 15:09:47',0),(2,'普通登录用户','guest','guest','guest@local','1380000000',0,'','admin','2013-12-19 15:09:41',0),(3,'赵一','zhaoyi','123456','zhaoyi@sina.com','13910514434',1,'','admin','2013-12-19 15:24:51',1),(5,'钱二','qianer','1234','qianer@sina.com','1310000000',0,'','admin','2013-12-19 15:25:11',1),(6,'孙三','sunsan','1234','sunsan','1320000000',1,'','admin','2013-12-19 15:25:38',2),(7,'李四','lisi','1234','lisi@sina.com','1330000000',0,'','admin','2013-12-19 15:25:44',2),(8,'周五','zhouwu','123456','zhouwu@sina.com','1340000000',1,'','admin','2013-12-19 15:25:48',3),(9,'吴六','wuliu','123','wuliu@tvmining.com','1360000000',0,'','admin','2013-12-19 15:25:53',3),(10,'郑七','zhengqi','123','zhengqi@sina.com','1350000000',1,'','admin','2013-12-19 15:25:58',4),(11,'王八','wangba','1234','wangba@sina.com','1370000000',0,'','admin','2013-12-19 15:26:02',4);
+INSERT INTO `user` VALUES (1,'系统管理员','admin','pbkdf2:sha1:1000$wSAYbZHM$d5117cb501820614b4ee3b58d3a1c7e0e8cdf0a7','admin@local','13900000000',0,NULL,'admin','2013-12-30 17:33:23',1),(2,'马可','mark','pbkdf2:sha1:1000$4dVZJYHe$e13fc4e2a9888cf316974051861b32fed892740c','mark@sina.com','13100000001',1,'','admin','2013-12-30 17:33:23',0),(3,'东城西城','east','pbkdf2:sha1:1000$eOPR53Mu$54a0c57f8c545187f3689af292ab28649dadfdae','east@sina.com','13100000002',0,'','admin','2013-12-30 17:58:56',0),(4,'天下太平','peace','pbkdf2:sha1:1000$mS9pwqWR$64abc8ee9032fd48f035b086df8511f558e86ffa','peace@sina.com','13100000003',0,'','admin','2013-12-30 17:58:56',0),(5,'黄飞虎','tiger','pbkdf2:sha1:1000$Sp6v92Qb$dd726dea7ad6cae3db38d18470f5a95a595b22f1','tiger@sina.com','13100000004',1,'','admin','2013-12-30 17:33:23',0),(6,'大西瓜','watermelon','pbkdf2:sha1:1000$ph25aYfX$84d79443b7d111684540f638926468bc7c344fb0','watermelon@sina.com','13100000005',0,'','admin','2013-12-30 17:33:23',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -391,4 +421,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-12-20 17:33:25
+-- Dump completed on 2013-12-31  9:43:33

@@ -95,7 +95,7 @@ def resource_list():
 	rs3 = aliased(Resource)
 	resources = db.session.query(rs1, rs2, rs3) \
 		.outerjoin(rs2, rs1.level_1_id == rs2.id) \
-		.outerjoin(rs3, rs1.level_1_id == rs3.id) \
+		.outerjoin(rs3, rs1.level_2_id == rs3.id) \
 		.all()
 	return render_template('account/resource_list.html', resources=resources)
 
@@ -151,7 +151,7 @@ def resource_delete(id):
 
 @mod.route('/user/')
 def user_list():
-	users = User.query.order_by(User.id).all()
+	users = db.session.query(User, Team).outerjoin(Team, User.team_id == Team.id).all()
 	return render_template('account/user_list.html', users=users)
 
 @mod.route('/user/add/', methods=['GET', 'POST'])
@@ -188,17 +188,25 @@ def user_delete(id):
 	db.session.commit()
 	return redirect(url_for("account.user_list"))
 
-def write_permission_table():
+def write_permission_table(member_list):
 	team = Team.query.order_by(Team.id.desc()).first()
-	resources = Resource.query.order_by(Resource.id).all()
 	if team is None:
 		id = 1
 	else:
 		id = team.id
+
+	# 用户权限表初始化
+	resources = Resource.query.order_by(Resource.id).all()
 	db.session.execute(
 		Permission.__table__.insert(),
-		[{'team_id': id, 'resource_id': resource.id} for resource in resources ]
+		[{'team_id': id, 'resource_id': resource.id} for resource in resources]
 	)
+
+	# 指定用户所属团队
+	users = User.query.filter(User.id.in_(member_list)).all()
+	for user in users:
+		user.team_id = id
+	
 	db.session.commit()
 
 @mod.route('/team/')
@@ -212,16 +220,17 @@ def team_add():
 	form.leader_id.choices = [(i.id, i.name) for i in User.query.filter(User.leader == True).all()]
 	form.leader_id.choices.insert(0, (0, u'- 指定负责人 -'))
 	form.member_id.choices = [(i.id, i.name) for i in User.query \
-		.filter(User.leader == False, User.id != 1).all()]
-	form.member_id.choices.insert(0, (0, u'- 指定团队成员 -'))
+		.filter(User.leader == False, User.id != 1, User.team_id==0).all()]
+	#form.member_id.choices.insert(0, (0, u'- 指定团队成员 -'))
 	if form.validate_on_submit():
 		team = Team()
 		form.populate_obj(team)
-		user_list = [str(i) for i in form.member_id.data]
-		team.member_id= ','.join(user_list)
 		db.session.add(team)
 		db.session.commit()
-		write_permission_table()
+		# 合并成员
+		member = form.member_id.data
+		member.append(form.leader_id.data)
+		write_permission_table(member)
 		return redirect(url_for("account.team_list"))
 	return render_template('account/team_edit.html', form=form)
 
@@ -229,9 +238,10 @@ def team_add():
 def team_detail(id):
 	team = Team.query.filter(id==id).first()
 	form = TeamDetailForm(request.form, team)
-	form.leader_id.choices = [(i.id, i.name) for i in User.query.filter(User.leader == True).all()]
-	users = [str(i) for i in team.member_id.split(',')]
-	form.member_id.choices = [(i.id, i.name) for i in User.query.filter(User.id.in_(users)).all()]
+	form.leader_id.choices = [(i.id, i.name) \
+		for i in User.query.filter(User.leader==True, User.team_id==id).all()]
+	form.member_id.choices = [(i.id, i.name) \
+		for i in User.query.filter(User.team_id==id, User.leader==False).all()]
 	return render_template('account/team_detail.html', form=form)
 
 @mod.route('/team/edit/<int:id>', methods=['GET', 'POST'])
@@ -241,13 +251,13 @@ def team_edit(id):
 	form.leader_id.choices = [(i.id, i.name) for i in User.query.filter(User.leader == True).all()]
 	form.leader_id.choices.insert(0, (0, u'- 指定负责人 -'))
 	form.member_id.choices = [(i.id, i.name) for i in User.query \
-		.filter(User.leader == False, User.id != 1).all()]
-	form.member_id.choices.insert(0, (0, u'- 指定团队成员 -'))
+		.filter(User.leader == False, User.id != 1, User.team_id==id).all()]
+	#form.member_id.choices.insert(0, (0, u'- 指定团队成员 -'))
 	if form.validate_on_submit():
 		form.populate_obj(team)
-		print form.member_id.data
-		user_list = [str(i) for i in form.member_id.data]
-		team.member_id= ','.join(user_list)
+		# 合并成员
+		member = form.member_id.data
+		member.append(form.leader_id.data)
 		db.session.commit()
 		return redirect(url_for("account.team_list"))
 	return render_template('account/team_edit.html', form=form)

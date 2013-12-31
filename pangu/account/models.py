@@ -2,6 +2,7 @@
 from datetime import datetime
 from sqlalchemy.ext.hybrid import hybrid_property
 from werkzeug import check_password_hash, generate_password_hash
+from flask import flash
 
 from pangu import db
 
@@ -38,6 +39,7 @@ class User(db.Model):
     notes = db.Column(db.String(200))
     update_user = db.Column(db.String(20), default='admin')
     update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+    team_id = db.Column(db.Integer, default=0)
 
     @hybrid_property
     def password(self):
@@ -47,15 +49,21 @@ class User(db.Model):
     def password(self, value):
         self._password = generate_password_hash(value)
 
-    def check_password(self, password):
-        if self.password is None:
-            return False
-        
-        password = password.strip()
-        
-        if not password:
-            return False
-        return check_password_hash(self.password, password)
+    # Hooks for Flask-Login
+    def get_id(self):
+        return str(self.id)
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def is_authenticated(self):
+        return True
+
+    def __repr__(self):
+        return u'<{self.__class__.__name__}: {self.id}>'.format(self=self)
   
 class Team(db.Model):
     id = db.Column(db.Integer, index=True, primary_key=True)
@@ -64,4 +72,3 @@ class Team(db.Model):
     update_user = db.Column(db.String(20), default='admin')
     update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
     leader_id = db.Column(db.Integer, default=0) # 团队负责人
-    member_id = db.Column(db.String(200))

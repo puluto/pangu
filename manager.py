@@ -29,11 +29,11 @@ def initial_tables():
         Manufacture(short_name=u'无锡电信', full_name=u'中国电信无锡电信分公司', sites=u'http://js.189.cn/bussiness/page/new/index.html', \
             producer=False, software=False, supplier=True, notes=u'详细')])
     
+    db.session.add_all([Team(name=u'管理组')]);
+
     db.session.add_all([
         User(name=u'系统管理员', code_name=u'admin', password=u'admin', \
-            mail='admin@local', mobile='13900000000', leader=False)])
-
-    db.session.add_all([Team(name=u'管理组', member_id='1')]);
+            mail='admin@local', mobile='13900000000', leader=False, team_id=1)])
 
     db.session.commit()
 

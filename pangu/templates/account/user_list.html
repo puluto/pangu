@@ -38,14 +38,14 @@
     <tbody>
         {% for user in users %}
         <tr>
-            <td>{{ user.id }}</td>            
-            <td>{{ user.name }}</td>
-            <td>{{ user.code_name }}</td>
-            <td>{{ user.mail }}</td>
-            <td>{{ user.mobile }}</td>
-            {% if user.leader %}<td>是</td>{% else %}<td>否</td>{% endif %}
-            <td>未指定</td>
-            <td><a href="{{ url_for('account.user_detail', id=user.id) }}"><i class="fa fa-search"></i></a> <a href="{{ url_for('account.user_edit', id=user.id) }}"><i class="fa fa-edit"></i></a> <a href="{{ url_for('account.user_delete', id=user.id) }}"><i class="fa fa-trash-o"></i></a></td>
+            <td>{{ user[0].id }}</td>            
+            <td>{{ user[0].name }}</td>
+            <td>{{ user[0].code_name }}</td>
+            <td>{{ user[0].mail }}</td>
+            <td>{{ user[0].mobile }}</td>
+            {% if user[0].leader %}<td>是</td>{% else %}<td>否</td>{% endif %}
+            <td>{{ user[1].name }}</td>
+            <td><a href="{{ url_for('account.user_detail', id=user[0].id) }}"><i class="fa fa-search"></i></a> <a href="{{ url_for('account.user_edit', id=user[0].id) }}"><i class="fa fa-edit"></i></a> <a href="{{ url_for('account.user_delete', id=user[0].id) }}"><i class="fa fa-trash-o"></i></a></td>
         </tr>
         {% endfor %}
     </tbody>
